@@ -1,5 +1,6 @@
 # Depression-detection-Graph
-<a href="https://arxiv.org/pdf/2111.15266.pdf"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3902276.svg" alt="DOI"></a>
+
+https://arxiv.org/pdf/2111.15266.pdf
 
 # Two-stage Temporal Modelling Framework for Video-based Depression Recognition using Graph Representation
 
