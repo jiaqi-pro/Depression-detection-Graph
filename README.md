@@ -44,4 +44,8 @@ https://nottingham-repository.worktribe.com/index.php/preview/4744779/Spectral_R
 - dgl
 - torch
 
+## Note
+各个模块的权重、NS-feature和 Spectral-mat
 
+**百度云**
+链接: https://pan.baidu.com/s/1rvWPwyeWi7wJqJsbh9jRQA 提取码: frft
