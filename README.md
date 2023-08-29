@@ -24,6 +24,9 @@ https://arxiv.org/pdf/2111.15266.pdf
 ### 3. MTA 的训练
 
 - 模型的定义：Model/MTA.py
+  ```
+   python MTA.py
+  ```
 - 模型的训练：Model/MTA_Train.py. 最终生成一个 MTA_results 的文件夹，用于保存模型模型权重。
 
 ### 4. NS 的训练。
