@@ -1,2 +1,25 @@
-# Depression-detection-Graph
-Two-stage Temporal Modelling Framework for Video-based Depression Recognition using Graph Representation
+### Video version todo list
+
+---
+
+#### 抑郁症分析模型开发
+- [ ] 学习并应用OpenFace进行人脸提取
+- [ ] 使用MTA-NS提取视频深层特征
+- [ ] 用Spectral方法转换特征到频域
+- [ ] 构建图模型，并基于频域信息进行抑郁分数预测
+- [ ] 连接模型到前端，实现Web应用/本地模式
+- [ ] 制作并发布demo展示视频
+
+#### 解决技术难点
+- [ ] 创建OpenFace使用指南
+- [ ] 设计人脸提取检查机制
+- [ ] 决策：保存特征提取数据 vs 在模型中整体结合
+- [ ] 转换Spectral的MATLAB代码到Python
+- [ ] 性能测试与优化图模型，考虑添加GPU版本
+
+#### 时间管理
+- [ ] 设定并遵循OpenFace学习和应用的时间表
+- [ ] 评估现有模型的可用性
+- [ ] 按照计划完成Spectral方法的转换
+- [ ] 成功部署为Web应用或本地模式
+- [ ] 按时完成并发布demo展示视频
