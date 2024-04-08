@@ -4,7 +4,7 @@
 
 This project explores automatic recognition of depressive states in videos using graph representation. It utilizes the AVEC 2013, AVEC 2014, and AVEC 2019 datasets, focusing on prediction analysis with multi-temporal attention, network slicing, and spectral graph models.
 
-[中文版 README](README_ZH.md)
+[中文版 README](README_zh.md)
 
 ## Dataset Introduction
 
