@@ -1,45 +1,45 @@
-# 基于图表示的视频抑郁识别
+# Graph-Based Video Depression Recognition
 
-## 概述
+## Overview
 
-本项目通过图表示方法探索视频中抑郁状态的自动识别。它利用AVEC 2013、AVEC 2014和AVEC 2019数据集，专注于多时态注意力、网络切片和谱图模型的预测分析。
+This project explores automatic recognition of depressive states in videos using graph representation. It utilizes the AVEC 2013, AVEC 2014, and AVEC 2019 datasets, focusing on prediction analysis with multi-temporal attention, network slicing, and spectral graph models.
 
-[English README](README.md)
+[中文版 README](README_ZH.md)
 
-## 数据集介绍
+## Dataset Introduction
 
-AVEC系列数据集专注于视频和音频特征的情感分析，是我们研究的核心。每个数据集通过视频和音频线索提供对情感识别的独特见解。
+The AVEC series datasets, focusing on video and audio features for emotion analysis, are pivotal in our study. Each dataset provides unique insights into emotion recognition through video and audio cues.
 
-## 数据预处理
+## Data Preprocessing
 
-关键预处理步骤包括筛选长度为30倍数的数据，并将格式转换为`.mat`，以30个样本为一组进行组织。
+Key preprocessing steps include data filtering to lengths that are multiples of 30 and format conversion to `.mat`, organizing samples in batches of 30.
 
-## 模型训练与测试
+## Model Training and Testing
 
-### 训练
+### Training
 
-训练过程涉及多个模型：
-- **MTB训练**：在`Model/MTB.py`中定义，通过`MTB/MTB_Fusion_Train.py`训练。
-- **MTA训练**：基于`Model/MTA.py`，执行`Model/MTA_Train.py`。
-- 还概述了NS训练、谱编码器和图模型训练的附加步骤，重点关注特征提取和网络训练。
+The process involves training multiple models:
+- **MTB Training**: Defined in `Model/MTB.py` and trained using `MTB/MTB_Fusion_Train.py`.
+- **MTA Training**: Based on `Model/MTA.py`, executed via `Model/MTA_Train.py`.
+- Additional steps for NS Training, Spectral Encoder, and Graph Model training are outlined, focusing on feature extraction and network training.
 
-### 测试
+### Testing
 
-模型针对预处理的数据集进行测试，以确保在实际场景中的准确性和有效性。
+Models are tested against a preprocessed dataset to ensure accuracy and effectiveness in real-world scenarios.
 
-## 环境配置
+## Environment Setup
 
-依赖包括`tqdm`、`dgl`和`torch`。确保安装这些库以无缝执行项目。
+Dependencies include `tqdm`, `dgl`, and `torch`. Ensure these libraries are installed for seamless project execution.
 
-## 额外资源
+## Additional Resources
 
-对于有兴趣进一步探索的研究人员，模型权重和预处理特征可在[此处](链接)获取。
+For researchers interested in further exploration, model weights and preprocessed features are available [here](link).
 
-## 注意事项
+## Notes
 
-提供遵守数据集条款和详细操作指南，以保证可复制性和道德研究实践。
+Adherence to dataset terms and detailed operation instructions are provided for reproducibility and ethical research practices.
 
-## 引用与致谢
+## Citations and Acknowledgments
 
-我们的方法论建立在现有研究之上，对基础工作和贡献者给予具体的引用和致谢。
+Our methodology builds on existing research, with specific citations and acknowledgments given to foundational works and contributors.
 
