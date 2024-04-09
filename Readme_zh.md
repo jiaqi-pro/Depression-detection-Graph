@@ -25,19 +25,66 @@
 
 
 ## 模型介绍
-### MTB 
+### Multi-scale Temporal Behavioural Feature Extraction (MTB)
+
+<p align="center">
+  <img src="MTB.png"  width="80%" height = "80%" alt="MTB" title="MTB">
+</p>
+
+MTB是基于Temporal Pyramid Network(TPN)进行构建，采用多个分支来学习1个图像序列的不同尺度的时空特征。 
+
+每个分支都是基于3D Resnet结构的，采用Resnet50的预训练权重。
+
+- [] TPN ref
+  
 
 
-### DFS
+### DFE(Depression Feature Enhancement)
 
+我们假设，从每个特征都包含两类信息：抑郁相关线索和非抑郁噪音。因此设计这个模块来提取抑郁相关特征来进行后续的预测。 
 
-### MTA
+#### Mutual Temporal Attention (MTA) 
+<p align="center">
+  <img src="MTA.png" width="80%" height = "80%" alt="MTA" title="MTA">
+</p>
 
-### NS
+#### Noise Separation (NS)
 
+<p align="center">
+  <img src="DS.png" width="80%" height = "80%" alt="DS" title="DS">
+</p>
 
 
 ### SEG & SPG
+
+由于每个视频的长度不一致，我们采用Spectral Encoding Algorithm 来将抑郁相关特征转化为与长度无关的光谱向量。
+
+- [] Spectral Representaion
+
+进行图的构建，来实现视频的逻辑构建进行预测。 
+<p align="center">
+  <img src="SPG_jiaqi_v6.png" width="60%" height = "40%"  alt="SPG-SEG" title="SPG-SEG">
+</p>
+
+
+## 使用流程
+
+### 数据预处理
+- AVEC 2013 & AVEC 2014
+  使用[Openface 2.0](https://github.com/TadasBaltrusaitis/OpenFace)来进行人脸提取，提取器采用 CE-CLM。
+
+- AVEC 2019
+  由于该数据集提供的特征文件，不需要进行脸部提取
+
+### 模型训练与测试
+
+
+
+
+## 环境配置
+
+mmaction
+  
 
 ## 数据预处理
 
