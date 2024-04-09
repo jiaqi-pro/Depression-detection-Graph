@@ -3,7 +3,7 @@
 </p>
 
 # Graph-based Video Depression Recognition
-[中文 README](README.md)
+[中文 README](Readme_zh.md)
 
 ## Overview
 
