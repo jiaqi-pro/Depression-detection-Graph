@@ -1,5 +1,7 @@
-![Logo](logo.webp "这是一个示例图片的标题")
 
+<p align="center">
+  <img src="converted_logo.webp" alt="logo" title="logo">
+</p>
 
 # Graph-Based Video Depression Recognition
 
