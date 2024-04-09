@@ -1,3 +1,6 @@
+![Logo](logo.webp "这是一个示例图片的标题")
+
+
 # Graph-Based Video Depression Recognition
 
 ## Overview
