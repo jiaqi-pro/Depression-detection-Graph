@@ -1,6 +1,6 @@
 
-<p align="center">
-  <img src="converted_logo.webp" alt="logo" title="logo">
+<p align="left">
+  <img src="converted_logo.webp" width="200" height="200" alt="logo" title="logo">
 </p>
 
 # Graph-Based Video Depression Recognition
