@@ -7,12 +7,15 @@
 
 ## 概述
 本项目是<Two-stage Temporal Modelling Framework for Video-based Depression Recognition using Graph Representation>的代码库。
+
 该工作的核心思路是通过图神经网络来将信息进行全局整合，来实现抑郁状态的识别。 
+
 使用的数据集合为 AVEC 2013 ，AVEC 2014以及 AVEC 2019.
+
 -[] 添加各个数据的ref
 
-<p align="left">
-  <img src="converted_logo.webp" width="200" height="200" alt="logo" title="logo">
+<p align="center">
+  <img src="pipeline.png"  alt="pipeline" title="pipeline">
 </p>
 下图是模型各个部分的介绍。本模型总共由三个主要模块组成。MTB 模块首先从目标视频的每个薄片中提取多个时空尺度的短期行为特征。
 从目标视频的每个薄片中提取多个时空尺度的短期行为特征。然后，DFE 模块会增强每个尺度上的特征所编码的抑郁相关线索（M
@@ -21,14 +24,20 @@
 视频级图表示，并将其输入图神经网络（GNN），用于抑郁严重程度的估计。
 
 
-
-图 1. 拟议方法的流水线由三个主要模块组成。MTB 模块首先从目标视频的每个薄片中提取多个时空尺度的短期行为特征。
-从目标视频的每个薄片中提取多个时空尺度的短期行为特征。然后，DFE 模块会增强每个尺度上的特征所编码的抑郁相关线索（M
-然后，DFE 模块会分别增强每个尺度上的特征（MTA 子模块）所编码的抑郁相关线索，并分离串联特征中的非抑郁噪音（NS 子模块）。
-最后，我们提出了一个图编码模块，将从目标视频的所有薄片中学习到的短期抑郁特征总结为一个
-视频级图表示，并将其输入图神经网络（GNN），用于抑郁严重程度的估计。
+## 模型介绍
+### MTB 
 
 
+### DFS
+
+
+### MTA
+
+### NS
+
+
+
+### SEG & SPG
 
 ## 数据预处理
 
