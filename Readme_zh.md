@@ -99,7 +99,8 @@ NS子模块专注于进一步分离和降低非抑郁噪声，优化最终特征
 
 ## 权重下载
 模型权重和预处理特征可以通过以下链接获取：
-- 百度云链接：[待添加]
+- 百度云链接：[链接：https://pan.baidu.com/s/1JNqbtU6hqct5EsvKPRVUaQ?pwd=oema 
+提取码：oema ]
 - Google Drive: [待添加]
 
 ## 注意事项
