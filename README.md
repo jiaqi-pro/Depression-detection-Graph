@@ -238,7 +238,7 @@ loss_SEG = SEG_loss()
 		optimizer.step()
 		print(f"Epoch {epoch+1}, Loss: {loss.item()}")
 ```
-###### SPG (Spectral Propagation Graph)
+##### SPG (Spectral Propagation Graph)
 
 **SPG.py**: Defines the SPG model, which applies Discrete Fourier Transform (DFT) to extract spectral signals \(B_n\) from time-series data for constructing a graph representation of depression states.
 
