@@ -99,10 +99,9 @@ class encoder_image(nn.Module):
         return x_hat
 
 
-
-class DSN(nn.Module):
+class NS(nn.Module):
     def __init__(self):
-        super(DSN, self).__init__()
+        super(NS, self).__init__()
         self.unrelated_conv = unrelated_conv()
         self.related_conv = related_conv()
         self.predict_part = predict_part()
@@ -123,10 +122,10 @@ class DSN(nn.Module):
 
         return unrealted_data, realted_data, predict_result, encode_result
 
-model = DSN()
-x = torch.rand([10,2048,1])
-unrealted_data, realted_data, predict_result, encode_result = model(x)
-print(f'unrealted_data:{unrealted_data.shape}')
-print(f'predict_Result :{predict_result}')
-print(f'related_data:{realted_data.shape}')
-print(f'encode_result:{encode_result.shape}')
+# model = NS()
+# x = torch.rand([10,2048,1])
+# unrealted_data, realted_data, predict_result, encode_result = model(x)
+# print(f'unrealted_data:{unrealted_data.shape}')
+# print(f'predict_Result :{predict_result}')
+# print(f'related_data:{realted_data.shape}')
+# print(f'encode_result:{encode_result.shape}')
