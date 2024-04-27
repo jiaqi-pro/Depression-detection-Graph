@@ -3,7 +3,7 @@
 </p>
 
 # Graph-based Video Depression Recognition
-[中文 README](README.md)
+[中文 README](Readme_zh.md)
 
 ## Overview
 
@@ -143,7 +143,7 @@ To ensure the code runs properly, please make sure the following dependencies ar
 
 ## Weight Download
 Model weights and preprocessed features can be obtained through the following links:
-- BaiduYun：[链接: https://pan.baidu.com/s/1woEGqgiaCVRepMkWOUIk9Q?pwd=5h2n 提取码: 5h2n]
+- Baidu Cloud link: [Link: https://pan.baidu.com/s/1woEGqgiaCVRepMkWOUIk9Q?pwd=5h2n Extracted Code: 5h2n]
 - Google Drive: [https://drive.google.com/drive/folders/1JOvTZcVl7EXJnCkhrdAS1dRiN52HD1kj?usp=sharing]
 
 ## Note
