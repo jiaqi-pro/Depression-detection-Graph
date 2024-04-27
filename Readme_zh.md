@@ -47,6 +47,13 @@ NS子模块专注于进一步分离和降低非抑郁噪声，优化最终特征
 
 对所有数据集，选择的视频长度调整为30的倍数，以获得均匀分布的样本组。
 
+### 运行模型
+1. 运行MTB-DFE.py,得到短期抑郁行为特征。
+`python MTB-DFE.py`
+2. 运行SpectralRepresentation.mlx,得到光谱向量。
+3. 运行SEG.py,得到抑郁等级。
+`python SEG.py`
+
 ## 项目结构和模型细节
 
 本项目专注于视频数据集的抑郁状态识别任务，分别处理AVEC 2013、2014视频数据集和AVEC 2019特征数据集。以下详细介绍了各部分的组织结构及相应模块的功能说明。
@@ -55,15 +62,50 @@ NS子模块专注于进一步分离和降低非抑郁噪声，优化最终特征
 
 #### Multi-scale Temporal Behavioural Feature Extraction (MTB)
 - **MTB.py**: 定义了MTB模型。该模型基于Temporal Pyramid Network (TPN) 构建，旨在捕捉视频序列的多尺度时空行为特征。
+- **Loss.py-> MTB_loss**: 定义了MTB模型的损失函数，用于优化模型性能。
+
+<p align="center">
+  <img src="fig/Loss/MTB_loss.png"  alt="MTB_loss" title="MTB_loss">
+</p>
+
 
 #### Depression Feature Enhancement (DFE)
 - **MTA_dataloader.py**: 负责数据加载，为MTA模块提供支持。
 - **MTA_Resnet.py**: 定义了基于ResNet的参数，构建基础的特征提取网络。
 - **MTA_TPN.py**: 定义了TPN相关的参数，用于在不同时间尺度上捕捉行为特征。
+- **Loss.py-> MTA_loss**: 定义了MTA模型的损失函数，用于优化模型性能。
+<p align="center">
+  <img src="fig/Loss/MTA_loss.png"  alt="MTA_loss" title="MTA_loss">
+</p>
 
 #### Noise Separation (NS)
 - **NS.py**: NS模型的定义，旨在从抑郁特征中分离噪声，优化特征表示的质量。
-- **loss.py**: 定义了模型训练过程中使用的损失函数，用于优化模型性能。
+- **Loss.py-> NS_loss**: 定义了NS模型的损失函数，用于优化模型性能。
+<p align="center">
+  <img src="fig/Loss/NS_loss.png"  alt="NS_loss" title="NS_loss">
+</p>
+
+- **Loss.py-> Sim_loss**: 定义了相似性损失函数，用于学习抑郁特征。
+<p align="center">
+  <img src="fig/Loss/Sim_loss.png"  alt="Sim_loss" title="Sim_loss">
+</p>
+
+- **Loss.py-> DiffSim_loss**: 定义了差异性相似性损失函数，用于强调抑郁特征与非抑郁特征之间的差异性。
+<p align="center">
+  <img src="fig/Loss/DiffSim_loss.png"  alt="DiffSim_loss" title="DiffSim_loss">
+</p>
+
+
+- **Loss.py-> Reconstruction_loss**: 定义了重构损失函数，用于优化特征表示的质量。
+<p align="center">
+  <img src="fig/Loss/Reconstruction_loss.png"  alt="Reconstruction_loss" title="Reconstruction_loss">
+</p>
+
+- **MTB+DFE.py**: 将MTB和DFE模块整合，实现对抑郁特征的增强和优化。
+- **MTB+DFE_loss**: 在MTB+DFE模型中定义了损失函数，用于优化模型性能。
+<p align="center">
+  <img src="fig/Loss/MTB_DFE_loss.png"  alt="MTB_DFE_loss" title="MTB_DFE_loss">
+</p>
 
 #### Spectral Representation
 - **SpectralRepresentation.mlx**: 用于将抑郁相关特征转换成光谱向量，实现对视频长度的不敏感性。
@@ -73,6 +115,8 @@ NS子模块专注于进一步分离和降低非抑郁噪声，优化最终特征
 - **mlp_readout_layer.py**: 定义了MLP读出层，从图表示中提取有用信息。
 - **gat_net.py**: GAT网络的定义，整合各层构建完整的图神经网络模型。
 - **SEG.py** & **SPG.py**: 分别定义了SEG和SPG模型，负责将光谱向量转换为图表示，用于抑郁状态的最终预测。
+- **Loss.py-> SEG_loss**: 定义了SEG模型的损失函数，用于优化模型性能。
+- **Loss.py-> SPG_loss**: 定义了SPG模型的损失函数，用于优化模型性能。
 
 ### AVEC 2019 数据集
 
@@ -89,13 +133,8 @@ NS子模块专注于进一步分离和降低非抑郁噪声，优化最终特征
 
 ## 环境配置
 为保证代码的正常运行，请确保安装以下依赖：
-- mmcv
-- mmaction
-- torch==2.2.2
-- torchvision
-- tqdm
-- dgl
 
+`pip install -r requirements.txt`
 
 ## 权重下载
 模型权重和预处理特征可以通过以下链接获取：

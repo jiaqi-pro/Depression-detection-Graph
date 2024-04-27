@@ -47,6 +47,15 @@ To address the challenge of varying video lengths, we employ the Spectral Encodi
 
 For all datasets, video lengths are adjusted to multiples of 30 to achieve uniformly distributed sample groups.
 
+### Running the code
+1. Run `MTB-DFE.py` to obtain short-term depression behavioral features.
+`python MTB-DFE.py`
+2. Run `SpectralRepresentation.mlx` to obtain spectral vectors.
+3. Run `SEG.py` to obtain depression levels.
+`python SEG.py`
+
+
+
 ## Project Structure and Model Details
 
 This project focuses on the task of depression state recognition in video datasets, processing both AVEC 2013 & 2014 video datasets and the AVEC 2019 feature dataset. The organization and functionality of each part are detailed below.
@@ -55,15 +64,53 @@ This project focuses on the task of depression state recognition in video datase
 
 #### Multi-scale Temporal Behavioural Feature Extraction (MTB)
 - **MTB.py**: Defines the MTB model. This model, built on the Temporal Pyramid Network (TPN), aims to capture multi-scale spatio-temporal behavioral features from video sequences.
+- **Loss.py -> MTB_loss**: Defines the loss function for the MTB model, used to optimize model performance.
+<p align="center">
+  <img src="fig/Loss/MTB_loss.png" alt="MTB_loss" title="MTB_loss">
+</p>
 
 #### Depression Feature Enhancement (DFE)
 - **MTA_dataloader.py**: Responsible for data loading, supporting the MTA module.
 - **MTA_Resnet.py**: Defines parameters based on ResNet, constructing the foundational feature extraction network.
 - **MTA_TPN.py**: Defines TPN-related parameters for capturing behavioral features at different temporal scales.
+- **Loss.py -> MTA_loss**: Defines the loss function for the MTA model, used to optimize model performance.
+<p align="center">
+  <img src="fig/Loss/MTA_loss.png" alt="MTA_loss" title="MTA_loss">
+</p>
 
 #### Noise Separation (NS)
 - **NS.py**: Definition of the NS model, aimed at separating noise from depression features to optimize feature representation quality.
-- **loss.py**: Defines the loss function used during model training to optimize performance.
+- **Loss.py -> NS_loss**: Defines the loss function for the NS model, used to optimize model performance.
+
+<p align="center">
+  <img src="fig/Loss/NS_loss.png" alt="NS_loss" title="NS_loss">
+</p>
+
+- **Loss.py -> Sim_loss**: Defines a similarity loss function, used for learning depressive features.
+
+<p align="center">
+  <img src="fig/Loss/Sim_loss.png" alt="Sim_loss" title="Sim_loss">
+</p>
+
+- **Loss.py -> DiffSim_loss**: Defines a differential similarity loss function, used to emphasize the differences between depressive and non-depressive features.
+
+<p align="center">
+  <img src="fig/Loss/DiffSim_loss.png" alt="DiffSim_loss" title="DiffSim_loss">
+</p>
+
+- **Loss.py -> Reconstruction_loss**: Defines a reconstruction loss function, used to optimize the quality of feature representation.
+
+<p align="center">
+  <img src="fig/Loss/Reconstruction_loss.png" alt="Reconstruction_loss" title="Reconstruction_loss">
+</p>
+
+- **MTB+DFE.py**: Integrates the MTB and DFE modules to enhance and optimize depressive features.
+
+Besides, shows the loss function within the MTB+DFE model, used to optimize model performance.
+
+<p align="center">
+  <img src="fig/Loss/MTB_DFE_loss.png" alt="MTB_DFE_loss" title="MTB_DFE_loss">
+</p>
 
 #### Spectral Representation
 - **SpectralRepresentation.mlx**: Converts depression-related features into spectral vectors, insensitive to video length.
@@ -73,6 +120,8 @@ This project focuses on the task of depression state recognition in video datase
 - **mlp_readout_layer.py**: Defines the MLP readout layer to extract useful information from the graph representation.
 - **gat_net.py**: Definition of the GAT network, integrating layers to build the complete graph neural network model.
 - **SEG.py** & **SPG.py**: Define the SEG and SPG models, responsible for converting spectral vectors into graph representations for the final prediction of depression states.
+- **Loss.py -> SEG_loss**: Defines the loss function for the SEG model, used to optimize model performance.
+- **Loss.py -> SPG_loss**: Defines the loss function for the SPG model, used to optimize model performance.
 
 ### AVEC 2019 Dataset
 
@@ -89,12 +138,8 @@ Each module contains corresponding training scripts, providing detailed instruct
 
 ## Environment Setup
 To ensure the code runs properly, please make sure the following dependencies are installed:
-- mmcv
-- mmaction
-- torch==2.2.2
-- torchvision
-- tqdm
-- dgl
+`pip install -r requirements.txt`
+
 
 ## Weight Download
 Model weights and preprocessed features can be obtained through the following links:
@@ -103,6 +148,11 @@ Model weights and preprocessed features can be obtained through the following li
 
 ## Note
 Please ensure compliance with the dataset usage terms and refer to the detailed operation guide to ensure replicability and ethical research practices.
+
+## Future Work
+- [ ] 1. Convert Spectral Representation to a Python version.
+- [ ] 2. Provide Inference.py, inputting a video file to directly predict the depression level.
+- [ ] 3. Design a GUI interface or an exe program for ease of use.
 
 ## Citations and Acknowledgements
 This project builds on the following research achievements, for which we express our gratitude and cite:

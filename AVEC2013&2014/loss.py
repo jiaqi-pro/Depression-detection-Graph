@@ -1,5 +1,7 @@
 import torch
 import torch.nn as nn
+
+# difference similarity loss
 class DiffLoss(nn.Module):
 
     def __init__(self):
@@ -21,7 +23,7 @@ class DiffLoss(nn.Module):
 
         return cost
 
-# 计算编码之后与TPN提取之后的特征的相似值
+# similarity loss
 class SIMSE(nn.Module):
 
     def __init__(self):
@@ -32,3 +34,49 @@ class SIMSE(nn.Module):
         n = torch.numel(diffs.data)
         simse = torch.sum(diffs).pow(2) / (n ** 2)
         return simse
+
+# reconstruction loss
+class Reconstruction(nn.Module):
+    def __init__(self):
+        super(Reconstruction, self).__init__()
+    def forward(self, pred, real):
+        return torch.nn.functional.mse_loss(pred, real)
+
+
+# Regression loss
+class MTB_Regression_loss(nn.Module):
+    def __init__(self):
+        super(MTB_Regression_loss, self).__init__()
+    def forward(self, pred, real):
+        return torch.nn.functional.mse_loss(pred, real)
+
+class MTA_Regression_loss(nn.Module):
+    def __init__(self):
+        super(MTA_Regression_loss, self).__init__()
+
+    def forward(self, pred, real):
+        return torch.nn.functional.mse_loss(pred, real)
+
+class NS_Regression_loss(nn.Module):
+    def __init__(self):
+        super(NS_Regression_loss, self).__init__()
+
+    def forward(self, pred, real):
+        return torch.nn.functional.mse_loss(pred, real)
+
+class SEG_Regression_loss(nn.Module):
+    def __init__(self):
+        super(SEG_Regression_loss, self).__init__()
+
+    def forward(self, pred, real):
+        return torch.nn.functional.mse_loss(pred, real)
+
+class SPG_Regression_loss(nn.Module):
+    def __init__(self):
+        super(SPG_Regression_loss, self).__init__()
+
+    def forward(self, pred, real):
+        return torch.nn.functional.mse_loss(pred, real)
+
+
+

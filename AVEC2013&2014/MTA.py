@@ -62,7 +62,7 @@ class MTA(nn.Module):
         super(MTA, self).__init__()
         self.tpn_resnet_slow = resnet_slowfast
         self.tpn = tpn
-        self.fc1 = nn.Linear(32768,2048)
+        self.fc1 = nn.Linear(100352,2048)
         self.dropout = nn.Dropout(p=0.1)
         self.relu1 = nn.ReLU()
         self.fc2 = nn.Linear(2048,1)
@@ -76,11 +76,11 @@ class MTA(nn.Module):
         tpn_result_0 = self.dropout(tpn_result_0)
         tpn_result_0 = self.relu1(tpn_result_0)
         tpn_result = self.fc2(tpn_result_0)
-        return tpn_result,loss_aux
+        return tpn_result,loss_aux,tpn_result_0
 
 
-# input_tensor = torch.rand([10,30,3,112,112])
+# input_tensor = torch.rand([10,30,3,224,224])
 # label_tensor = torch.rand([10]).long()
 # print(label_tensor.shape)
-# tpn_result,loss_aux = MTA()(input_tensor,label_tensor)
+# tpn_result,loss_aux,_ = MTA()(input_tensor,label_tensor)
 # print(tpn_result.shape)
