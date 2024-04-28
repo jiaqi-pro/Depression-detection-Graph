@@ -56,150 +56,86 @@ _No face extraction step is needed for the AVEC 2019 dataset as it provides feat
 ```
 ./Training_face/203_1_cut_combined_aligned/frame_det_00_000001.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000002.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000003.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000004.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000005.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000006.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000007.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000008.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000009.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000010.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000011.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000012.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000013.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000014.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000015.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000016.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000017.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000018.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000019.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000020.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000021.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000022.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000023.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000024.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000025.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000026.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000027.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000028.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000029.bmp,./Training_face/203_1_cut_combined_aligned/frame_det_00_000030.bmp,3
 ```
+
 ### Training Process Overview
 
-#### Stage One: Training the MTB-DFE Model
+#### Phase One: Training the MTB-DFE Model
 
-This stage focuses on training the Multi-scale Temporal Behavioral Feature Extraction-Depression Feature Enhancement (MTB-DFE) model, which captures and enhances short-term depressive behavior features from video sequences.
+This phase focuses on training the Multi-scale Temporal Behavioral Feature Extraction - Depression Feature Enhancement (MTB-DFE) model, which captures and enhances short-term depression behavioral features from video sequences.
 
-#### Architecture Overview
+##### 1. Input and Feature Extraction
+- **Video Frame Sequence to MTB**: The video frame sequence is first input to the Multi-scale Temporal Behavioral Feature Extraction (MTB) component, obtaining multi-scale spatio-temporal behavioral features $f^{MTB}$.
 
-##### MTB (Multi-scale Temporal Behavioral Feature Extraction)
+##### 2. Feature Enhancement and Preliminary Prediction
+- **MTB Output to MTA**: The output features from MTB are fed into the Mutual Temporal Attention (MTA) module. This module enhances features highly related to depressive states, yielding the weighted feature vector $f^{MTA}$, which is then used for prediction, resulting in the MTA prediction outcomes $D^{MTA}$.
 
-**MTB.py**: Defines the MTB model based on the Temporal Pyramid Network (TPN), designed to capture multi-scale spatio-temporal behavioral features from video sequences.
+  - Calculate the MTA Loss Function $L_{MTA}$:
 
-<p align="center">
-  <img src="fig/MTB.png" alt="MTB" title="MTB" width="600">
-</p>
-
-**Input**:
-- Video frame sequence: The MTB component processes a series of preprocessed video frames, each typically sized 224x224.
-
-**Output**:
-- Multi-scale features: Extracted through a 3D convolutional network (e.g., 3D ResNet), capturing the dynamics and spatial details of behavior in the videos.
-
-##### DFE (Depression Feature Enhancement)
-
-###### MTA (Mutual Temporal Attention)
-
-**MTA.py**: Defines the MTA model, which applies an attention mechanism to the features extracted by MTB, highlighting key temporal segments indicative of depressive behaviors.
-
-<p align="center">
-  <img src="fig/MTA.png" alt="MTA" title="MTA" width="600">
-</p>
-
-**Input**:
-- Multi-scale spatio-temporal behavioral feature vectors from MTB.
-
-**Intermediate Variables**:
-- Weighted feature vectors: MTA enhances features highly related to depressive states through its attention layer, denoted as \(f^{MTA}\).
-
-**Output**:
-- MTA prediction results: Outputs depression state predictions through a fully connected layer, used for evaluating model performance.
-
-**Training Process**:
-- **Loss Calculation**: \(Loss_{MTA}\) is the mean squared error (MSE) between MTA's predictions and the depression labels, used to assess the accuracy of MTA predictions.
+    $$L_{\text{MTA}} = \frac{1}{N} \sum_{n=1}^{N} \left(D_n^{\text{MTA}}-D_n\right)^{2}$$
 
 
-```python
+    Where, $D_n$ represents the corresponding depression level, used to train and assess model accuracy.
 
-from MTA import MTA
+##### 3. In-depth Feature Separation and Loss Calculation
 
-model = MTA()
-# Assume dataloader, optimizer have been defined
-for epoch in range(num_epochs):
-    for inputs, labels in dataloader:
-        predict_result,loss,MTA_feature =  model(inputs,labels) # inputs:[B, T, C, H, W] ,labels:[B]
-        loss = loss['loss_aux']
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
-        print(f'Epoch {epoch+1}, Loss: {loss.item()}')
-```
+- **MTA Output to NS**: The feature vectors outputted from MTA are then passed into the **Noise Separation (NS)** component. This component separates features related to depression $F_{n}^\text{Dep}$ from unrelated noise $F_{n}^\text{Non}$, and reconstructs features $F_{n}^\text{Dec}$, as well as predicting depression levels $D_{NS}$.
 
-###### NS (Noise Separation)
+  **Calculate NS-related Loss**:
 
-**NS.py**: Defines the NS model, which filters out noise from the enhanced features provided by MTA, focusing on clearer, depression-specific signal enhancement.
+  - Prediction Loss Function for NS $L_{NS}$:
 
-<p align="center">
-  <img src="fig/NS.png" alt="NS" title="NS" width="600">
-</p>
+    $$L_{\text{NS}} = \frac{1}{N} \sum_{n=1}^{N} \left(D_n^{\text{NS}}-D_n\right)^{2}$$
 
-**Input**:
-- Weighted feature vectors from MTA \(f^{MTA}\).
+    Where,
 
-**Intermediate Variables**:
-- Depression-related features \(D-feat_i\): Extracted by a depression encoder from the input features.
-- Non-depression-related features \(Noise_i\): Extracted by a non-depression encoder from the input features.
-- Reconstructed features \(R-Feat_i\): Generated by a reconstruction decoder from the input features.
+    $D_n^{\text{NS}}$ represents the predicted depression level for the $n^{th}$ sample.
 
-**Output**:
-- NS prediction results: \(D-feat_i\) outputs depression state predictions through a fully connected layer, used for evaluating model performance.
+    $D_n$ represents the actual depression level for the $n^{th}$ sample.
 
-**Model Integration and Training**:
-
-The MTB-DFE model integrates inputs, processes them through the MTB, MTA, and NS components, and outputs predictions as follows:
-
-1. **Input**: Video frame sequence -> **MTB** -> Multi-scale spatio-temporal behavioral feature vectors.
-2. **Process**: Multi-scale spatio-temporal behavioral feature vectors -> **MTA** -> Weighted feature vectors.
-3. **Output**: Weighted feature vectors -> **NS** -> Intermediate variables and NS prediction results.
-
-**Training Loss Functions**:
-During the training of the MTB-DFE model, the following loss functions are combined for end-to-end optimization:
-- \(Loss_{short} = Loss_{NS} + w_1 \times Loss_{MTA} + w_2 \times Loss_{Sim} + w_3 \times Loss_{DiffSim} + w_4 \times Loss_{Reconstruction}\)
-- Where \(w_1, w_2, w_3, w_4\) are hyperparameters that can be adjusted based on practical scenarios. Each loss component is defined in `Loss.py`.
-
-```python
-from loss import SIMSE, Reconstruction, DiffLoss, NS_Regression_loss
-model = MTB_DFE()
-# Initialize the loss functions
-simse = SIMSE()
-reconstruction = Reconstruction()
-diff_simse = DiffLoss()
-NS_Regression_loss = NS_Regression_loss()
-
-w_1, w_2, w_3, w_4 = 1, 1, 1, 1
-
-for epoch in range(num_epochs):
-    for input_tensor, label in dataloader:
+  - Calculate Similarity Function $L_{sim}$:
  
-        Noise, D_feat, NS_result, R_feat,loss_aux,F_mta= model(input_tensor,label)
-		
-		indices = torch.randperm(D_feat.size(0))
 
-		# shuffle D_feature by the first dimension
-		shuffle_D_feat = D_feat[indices]
-        # Calculate the loss
-		loss_mta = loss_aux['loss_aux']  # MTA Loss
-		loss0 = NS_Regression_loss(NS_result, label)  # NS Loss
-		loss1 = simse(D_feat, shuffle_D_feat)  # Similarity MSE Loss
-		loss2 = diff_simse(Noise, D_feat)  # Diff-Similarity Loss
-		loss3 = reconstruction(R_feat, F_mta)  # Reconstruction Loss
-		total_loss = loss0 + w_1 * loss_mta + w_2 * loss1 + w_3 * loss2 + w_4 * loss3
 
-        optimizer.zero_grad()
-        total_loss.backward()
-        optimizer.step()
-        print(f"Epoch {epoch+1}, Loss: {loss.item()}")
+    $$L_{\text{sim}} = \frac{1}{N^2}\sum_{n=1}^{N-1} \sum_{i=n+1}^n (F_{n}^\text{Dep}-F_{i}^\text{Dep})^2$$
 
-```
-**Detailed Descriptions of Each Loss Function**:
+    Where,
 
-1. **$Loss_{DiffSim}$ (Difference Similarity Loss)**
-   - **Description**: $Loss_{DiffSim}$ aims to reduce the correlation between depression features (Depression feature) and non-depression features (Non-Depression feature). This loss evaluates the similarity between these two types of features to optimize their distinguishability.
-   - **Implementation**: Uses the `DiffLoss` class, which first normalizes and centers the input features, then calculates the inner product matrix of these features, and finally averages the squares of the matrix elements.
+    $F_{n}^\text{Dep}$ and $F_{i}^\text{Dep}$ are depression-related features extracted from the shared depression encoder.
 
-2. **$Loss_{Sim}$ (Similarity MSE Loss)**
-   - **Description**: $Loss_{Sim}$ is the mean squared error (MSE) between depression features. This loss function evaluates the consistency between similar features to enhance the accuracy of the model in extracting depression features.
+  - Calculate Dissimilarity Function $L_{D-sim}$:
 
-3. **$Loss_{Reconstruction}$ (Reconstruction Loss)**
-   - **Description**: $Loss_{Reconstruction}$ is the mean squared error (MSE) between depression features and reconstructed features. This loss evaluates the quality of the reconstruction process, ensuring the reconstructed features closely match the original input features.
+    $$L_{\text{D-sim}} = \frac{1}{N^2} \sum_{n=1}^{N} \left\|(F_{n}^{\text{Dep}})^{\top} F_{n}^{\text{Non}} \right\|_{\text{Frob}}^{2}$$
 
-4. **$Loss_{MTA}$ (MTA Regression Loss)**
-   - **Description**: $Loss_{MTA}$ calculates the mean squared error (MSE) between MTA's predictions and the depression labels. This loss evaluates the accuracy of the MTA module in predicting depression states, aiding the model in focusing on key behavioral features.
+    Where,
 
-5. **$Loss_{NS}$ (NS Regression Loss)**
-   - **Description**: $Loss_{NS}$ calculates the mean squared error (MSE) between NS's predictions and the depression labels. This loss optimizes the performance of the NS module, ensuring the noise separation process effectively enhances the clarity of the feature signals.
+    $F_{n}^{\text{Dep}}$ is the depression-related feature for the $n^{th}$ input.
+
+    $F_{n}^{\text{Non}}$ is the non-depression-related feature for the $n^{th}$ input.
+
+    $\left\| \cdot \right \| ^{2}_{\text{Frob}}$ represents the squared Frobenius norm.
+
+  - Calculate Reconstruction Function $L_{Rec}$:
+
+    $$L_{\text{Rec}} = \frac{1}{N \times J} \sum_{n=1}^{N} \sum_{j=1}^{J} \left(F_n^{\text{Dec}}(j) - F_n(j)\right)^{2}$$
+
+    Where,
+
+    $F_n(j)$: Represents the $j_{\text{th}}$ element of the $n_{\text{th}}$ input feature vector. This is the original data that was input into the model.
+
+    $F_n^{\text{Dec}}(j)$: The $j_{\text{th}}$ element of the reconstructed feature vector for the $n_{\text{th}}$ sample, which is generated by the decoder.
+
+    $N$: Total number of samples in the dataset.
+
+    $J$: Number of features (or dimensions) in each feature vector.
+
+- Integrating Losses: Combine $L_{MTA}$, $L_{NS}$, $L_{sim}$, $L_{D-sim}$, and $L_{Rec}$ to form $L_{short}$ for optimizing MTB-DFE, as follows:
+
+    $$L_{\text{short}} =  L_{\text{NS}} + W_1 \times L_{\text{MTA}} + W_2 \times L_{\text{sim}} + W_3 \times L_{\text{D-sim}} + W_4 \times L_{\text{Rec}}$$
+
+    Where $W_1$$, $W_2$$, $W_3$ and $W_4$ are weights indicating the importance of each loss component.
+
+- Backpropagation: The loss $L_{\text{short}}$ is then backpropagated to optimize the parameters within the MTB-DFE model.
+
 
 #### Stage Two: Training the SEG/SPG Models
 
