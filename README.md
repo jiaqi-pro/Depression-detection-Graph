@@ -59,9 +59,9 @@ _No face extraction step is needed for the AVEC 2019 dataset as it provides feat
 
 ### Training Process Overview
 
-#### Phase One: Training the MTB-DFE Model
+#### Stage One: Training the MTB-DFE Model
 
-This phase focuses on training the Multi-scale Temporal Behavioral Feature Extraction - Depression Feature Enhancement (MTB-DFE) model, which captures and enhances short-term depression behavioral features from video sequences.
+This stage focuses on training the Multi-scale Temporal Behavioral Feature Extraction - Depression Feature Enhancement (MTB-DFE) model, which captures and enhances short-term depression behavioral features from video sequences.
 
 ##### 1. Input and Feature Extraction
 - **Video Frame Sequence to MTB**: The video frame sequence is first input to the Multi-scale Temporal Behavioral Feature Extraction (MTB) component, obtaining multi-scale spatio-temporal behavioral features $f^{MTB}$.
