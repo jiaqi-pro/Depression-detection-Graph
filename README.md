@@ -132,7 +132,7 @@ This stage focuses on training the Multi-scale Temporal Behavioral Feature Extra
 
     $$L_{\text{short}} =  L_{\text{NS}} + W_1 \times L_{\text{MTA}} + W_2 \times L_{\text{sim}} + W_3 \times L_{\text{D-sim}} + W_4 \times L_{\text{Rec}}$$
 
-    Where $W_1$$, $W_2$$, $W_3$ and $W_4$ are weights indicating the importance of each loss component.
+    Where $W_1$, $W_2$, $W_3$ and $W_4$ are weights indicating the importance of each loss component.
 
 - Backpropagation: The loss $L_{\text{short}}$ is then backpropagated to optimize the parameters within the MTB-DFE model.
 
