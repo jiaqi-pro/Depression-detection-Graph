@@ -3,7 +3,7 @@
 </p>
 
 # Video-based Depression Detection using Graph Representation
-[中文](Readme_ZH.md)   
+[中文](README_ZH.md)   
 
 [English](README.md)
 
