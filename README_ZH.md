@@ -160,10 +160,44 @@ L_{\text{short}} =  L_{\text{NS}} + W_1 \times L_{\text{MTA}} + W_2 \times L_{\t
 
 之后将 $L_{\text{short}} $进行反向传播，来优化MTB-DFE里的参数。
 
+#### 阶段二：训练SEG / SPG 模型
+
+  ##### SEG (SEquential Graph representation)
 
 
+- **NS**的输出 $F_{n}^\text{Dep}$ 传入到 *SEG* 组件, 预测抑郁等级 $D_{SEG}$
 
 
+- 计算**SEG**的预测损失函数 $L_{SEG}$
+
+$$
+L_{\text{SEG}} = \frac{1}{N} \sum_{n=1}^{N} \left(D_n^{\text{SEG}}-D_n\right)^{2}
+$$
+
+其中，
+
+$D_n^{\text{SEG}}$表示第 $n$ 个样本经过**SEG**预测的抑郁等级。
+
+$D_n$ 表示第 $n$ 个样本真实的抑郁等级
+
+
+##### SPG (SPectral Graph representation)
+
+
+- **NS**的输出 $F_{n}^\text{Dep}$ 通过 `SpectralRepresentation.mlx`, 得到频谱信号 $B_n$
+- 将频谱信号 $B_n$ 输入到 *SEG* 组件, 得出预测抑郁等级 $D_{SPG}$
+   
+- 计算**SPG**的预测损失函数 $L_{SPG}$
+
+$$
+L_{\text{SPG}} = \frac{1}{N} \sum_{n=1}^{N} \left(D_n^{\text{SPG}}-D_n\right)^{2}
+$$
+
+其中，
+
+$D_n^{\text{SPG}}$表示第 $n$ 个样本经过**SPG**预测的抑郁等级。
+
+$D_n$ 表示第 $n$ 个样本真实的抑郁等级
 
 
 
