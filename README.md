@@ -137,77 +137,51 @@ This stage focuses on training the Multi-scale Temporal Behavioral Feature Extra
 - Backpropagation: The loss $L_{\text{short}}$ is then backpropagated to optimize the parameters within the MTB-DFE model.
 
 
-#### Stage Two: Training the SEG/SPG Models
 
 <p align="center">
   <img src="fig/Graph.png" alt="Graph" title="Graph" width="600">
 </p>
 
-##### SEG (Sequential Graph Representations)
+#### Phase Two: Training the SEG / SPG Models
 
-**SEG.py**: Defines the SEG model, which integrates short-term depression-related features \(D-feat_i\) from the MTB_DFE output, irrespective of length, using a graph structure for prediction.
+##### SEG (Sequential Graph Representation)
 
-**Input**:
-- Sequence of short-term depression-related features from MTB_DFE \([D-feat_1, D-feat_2, ..., D-feat_n]\).
+- The output $F_{n}^\text{Dep}$ from **NS** is fed into the *SEG* component to predict the depression level $D_{SEG}$.
 
-**Intermediate Variables**:
-- SEG's Graph structure: Constructs a graph to integrate the short-term depression-related features \(D-feat_i\).
+- Calculate the prediction loss function for **SEG**, $L_{SEG}$:
 
-**Output**:
-- SEG prediction results: SEG predicts depression levels through graph attention network (GAT) message passing and aggregation.
+$$
+L_{\text{SEG}} = \frac{1}{N} \sum_{n=1}^{N} \left(D_n^{\text{SEG}}-D_n\right)^{2}
+$$
 
-**Training Process**:
-- **Loss Calculation**: \(Loss_{SEG}\) is the mean squared error (MSE) between SEG's predictions and the depression labels, used to assess the accuracy of SEG predictions.
+Where,
 
-```
-from SEG import build_graph, GATNet
-loss_SEG = SEG_loss()
- for epoch in range(num_epochs):
-	for input_tensor, label in dataloader:
-		G = build_graph(input_data)
-		e = torch.ones(G.num_edges(),1).long()
-		result = model(G,input_data,e)
-		# Calulate the loss
-		loss = loss_SEG(result,label)
-		optimizer.zero_grad()
-		loss.backward()
-		optimizer.step()
-		print(f"Epoch {epoch+1}, Loss: {loss.item()}")
-```
-##### SPG (Spectral Propagation Graph)
+$D_n^{\text{SEG}}$ represents the predicted depression level for the $n^{th}$ sample by **SEG**.
 
-**SPG.py**: Defines the SPG model, which applies Discrete Fourier Transform (DFT) to extract spectral signals \(B_n\) from time-series data for constructing a graph representation of depression states.
+$D_n$ represents the actual depression level for the $n^{th}$ sample.
 
-**Preprocessing**:
-- Use `SpectralRepresentation.mlx` to process the sequence of short-term depression-related features \([D-feat_1, D-feat_2, ..., D-feat_n]\) from MTB-DFE, obtaining spectral signals \(B_n\).
+- Backpropagation: The loss $L_{\text{SEG}}$ is then backpropagated to optimize the parameters within the SEG model.
 
-**Input**:
-- **Spectral signals \(B_n\)**: Spectral signals derived from depression-related features through Discrete Fourier Transform (DFT), used to construct the graph model.
+##### SPG (Spectral Graph Representation)
 
-**Intermediate Variables**:
-- **SPG's Graph structure**: Converts the spectral signals \(B_n\) into a graph structure, where each node represents a spectral feature and the edges between nodes represent the relationships between features.
+- The output $F_{n}^\text{Dep}$ from **NS** is processed through `SpectralRepresentation.mlx` to obtain the spectral signal $B_n$.
+- The spectral signal $B_n$ is input into the *SEG* component to predict the depression level $D_{SPG}$.
 
-**Output**:
-- **SPG prediction results**: SPG predicts depression levels through graph attention network (GAT) message passing and feature aggregation.
+- Calculate the prediction loss function for **SPG**, $L_{SPG}$:
 
-**Training Process**:
-- **Loss Calculation**: **\(Loss_{SPG}\)**: Calculates the mean squared error (MSE) between SPG's predicted depression levels and the actual depression labels, used to assess the accuracy of SPG predictions.
+$$
+L_{\text{SPG}} = \frac{1}{N} \sum_{n=1}^{N} \left(D_n^{\text{SPG}}-D_n\right)^{2}
+$$
 
-```
-from SPG import build_graph, GATNet
-loss_SPG = SPG_loss()
- for epoch in range(num_epochs):
-	for input_tensor, label in dataloader:
-		G = build_graph(input_data)
-		e = torch.ones(G.num_edges(),1).long()
-		result = model(G,input_data,e)
-		# Calulate the loss
-		loss = loss_SPG(result,label)
-		optimizer.zero_grad()
-		loss.backward()
-		optimizer.step()
-		print(f"Epoch {epoch+1}, Loss: {loss.item()}")
-```
+Where,
+
+$D_n^{\text{SPG}}$ represents the predicted depression level for the $n^{th}$ sample by **SPG**.
+
+$D_n$ represents the actual depression level for the $n^{th}$ sample.
+
+- Backpropagation: The loss $L_{\text{SPG}}$ is then backpropagated to optimize the parameters within the SPG model.
+
+
 ## Weight Downloads
 
 Model weights and preprocessed features can be accessed via the following links:
