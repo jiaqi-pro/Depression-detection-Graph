@@ -142,7 +142,7 @@ This stage focuses on training the Multi-scale Temporal Behavioral Feature Extra
   <img src="fig/Graph.png" alt="Graph" title="Graph" width="600">
 </p>
 
-#### Phase Two: Training the SEG / SPG Models
+#### Stage Two: Training the SEG / SPG Models
 
 ##### SEG (Sequential Graph Representation)
 
