@@ -63,8 +63,10 @@ _No face extraction step is needed for the AVEC 2019 dataset as it provides feat
 
 This stage focuses on training the Multi-scale Temporal Behavioral Feature Extraction - Depression Feature Enhancement (MTB-DFE) model, which captures and enhances short-term depression behavioral features from video sequences.
 
+Assuming we have $M$ videos, we initially acquire $I$ video frame sequences from each video, denoted as $m_{th}, m=(1,2,...,M)$, represented by $(S_1, S_2,...,S_I)$. Each training iteration processes batches of $N$ video sequences.
+
 ##### ****1. Input and Feature Extraction****
-- **Video Frame Sequence to MTB**: For a single video, we first acquire $N$ video frame sequences, denoted as $(S_1, S_2,...,S_N)$. These sequences are then input into th eMTB component as $S_n, n= (1,...,N)$, yielding multi-scale spatio-temporal behavioral features $[f^{\text{MTB}}_1, f^{\text{MTB}}_2, f^{\text{MTB}}_3,..., f^{\text{MTB}}_k]$. Consequently, the dimensions of the MTB feature are represented as $[N, k, J]$, where $J$ signifies the dimensionality of each $f^{\text{MTB}}_k$.
+- **Video Frame Sequence to MTB**: We first input the video sequences are then input into th MTB component as $S_n, n= (1,...,N)$ as training interation, yielding multi-scale spatio-temporal behavioral features $[f^{\text{MTB}}_1, f^{\text{MTB}}_2, f^{\text{MTB}}_3,..., f^{\text{MTB}}_k]$. Consequently, the dimensions of the MTB feature are represented as $[N, k, J]$, where $J$ signifies the dimensionality of each $f^{\text{MTB}}_k$.
 
  
 ##### ****2. Feature Enhancement and Preliminary Prediction****
@@ -72,7 +74,7 @@ This stage focuses on training the Multi-scale Temporal Behavioral Feature Extra
   - Calculate the MTA Loss Function $L_{MTA}$:
 
     $$L_{\text{MTA}} = \frac{1}{N} \sum_{n=1}^{N} \left(p_n^{\text{MTA}}-g_n\right)^{2}$$
-where $g_n$ represents the depression level for the $n_{th}$ video clip.
+where $g_n$ represents the depression level for the $n_{th}$ video sequ.
 ##### 3. In-depth Feature Separation and Loss Calculation
 
 - **MTA Output to NS**: The feature vectors outputted from MTA are then passed into the **Noise Separation (NS)** component. This component separates features related to depression $F_{n}^\text{Dep})$ from unrelated noise $F_{n}^\text{Non}$, and reconstructs features $F_{n}^\text{Dec}$, as well as predicting depression levels $p^\text{NS}_{n}$, $n=(1,2,...,N)$.
@@ -114,45 +116,36 @@ where $g_n$ represents the depression level for the $n_{th}$ video clip.
 
 
 <p align="center">
-  <img src="fig/Graph.png" alt="Graph" title="Graph" width="600">
+  <img src="fig/Graph-v2.png" alt="Graph" title="Graph" width="600">
 </p>
 
 #### Stage Two: Training the SEG / SPG Models
 
 ##### SEG (Sequential Graph Representation)
 
-- The output $F_{n}^\text{Dep}$ from **NS** is fed into the *SEG* component to predict the depression level $D_{SEG}$.
-
+- The output $F_{i}^\text{Dep}, i= (1,2,...,I)$ from **NS** of $m_{th}, m= (1,2,...,M)$ video is fed into the *SEG* component to predict the depression level $p^m_{SEG}$. 
 - Calculate the prediction loss function for **SEG**, $L_{SEG}$:
 
+
 $$
-L_{\text{SEG}} = \frac{1}{N} \sum_{n=1}^{N} \left(D_n^{\text{SEG}}-D_n\right)^{2}
+L_{\text{SEG}} = \frac{1}{M} \sum_{m=1}^{M} \left(p_m^{\text{SEG}}-g_m\right)^{2}
 $$
 
-Where,
-
-$D_n^{\text{SEG}}$ represents the predicted depression level for the $n^{th}$ sample by **SEG**.
-
-$D_n$ represents the actual depression level for the $n^{th}$ sample.
-
+where $p_m^{\text{SPG}}$ represents the predicted depression level for the $m_{th}$ video by **SEG**. $g_m$ represents the actual depression level for the $m_{th}$ video.
 - Backpropagation: The loss $L_{\text{SEG}}$ is then backpropagated to optimize the parameters within the SEG model.
 
 ##### SPG (Spectral Graph Representation)
 
-- The output $F_{n}^\text{Dep}$ from **NS** is processed through `SpectralRepresentation.mlx` to obtain the spectral signal $B_n$.
-- The spectral signal $B_n$ is input into the *SEG* component to predict the depression level $D_{SPG}$.
+- The output $F_{i}^\text{Dep}, i= (1,2,...,I)$ from **NS** of  $m_{th}, m= (1,2,...,M)$ video is processed through `SpectralRepresentation.mlx` to obtain the spectral signal $B_m$ whose size is $[J,K]$, where $J$ represents facial attributes and $K$ is the number of low-frequency components.
+- The spectral signal $B_m$ inputs into the *SPG* component to predict the depression level $p_m^{SPG}$.
 
 - Calculate the prediction loss function for **SPG**, $L_{SPG}$:
 
 $$
-L_{\text{SPG}} = \frac{1}{N} \sum_{n=1}^{N} \left(D_n^{\text{SPG}}-D_n\right)^{2}
+L_{\text{SPG}} = \frac{1}{M} \sum_{m=1}^{M} \left(p_m^{\text{SPG}}-g_m\right)^{2}
 $$
 
-Where,
-
-$D_n^{\text{SPG}}$ represents the predicted depression level for the $n^{th}$ sample by **SPG**.
-
-$D_n$ represents the actual depression level for the $n^{th}$ sample.
+where $p_m^{\text{SPG}}$ represents the predicted depression level for the $m_{th}$ video by **SPG**. $g_m$ represents the actual depression level for the $m_{th}$ video.
 
 - Backpropagation: The loss $L_{\text{SPG}}$ is then backpropagated to optimize the parameters within the SPG model.
 
