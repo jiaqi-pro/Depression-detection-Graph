@@ -63,76 +63,51 @@ _No face extraction step is needed for the AVEC 2019 dataset as it provides feat
 
 This stage focuses on training the Multi-scale Temporal Behavioral Feature Extraction - Depression Feature Enhancement (MTB-DFE) model, which captures and enhances short-term depression behavioral features from video sequences.
 
-##### 1. Input and Feature Extraction
-- **Video Frame Sequence to MTB**: The video frame sequence is first input to the Multi-scale Temporal Behavioral Feature Extraction (MTB) component, obtaining multi-scale spatio-temporal behavioral features $f^{MTB}$.
+##### ****1. Input and Feature Extraction****
+- **Video Frame Sequence to MTB**: For a single video, we first acquire $N$ video frame sequences, denoted as $(S_1, S_2,...,S_N)$. These sequences are then input into th eMTB component as $S_n, n= (1,...,N)$, yielding multi-scale spatio-temporal behavioral features $[f^{\text{MTB}}_1, f^{\text{MTB}}_2, f^{\text{MTB}}_3,..., f^{\text{MTB}}_k]$. Consequently, the dimensions of the MTB feature are represented as $[N, k, J]$, where $J$ signifies the dimensionality of each $f^{\text{MTB}}_k$.
 
-##### 2. Feature Enhancement and Preliminary Prediction
-- **MTB Output to MTA**: The output features from MTB are fed into the Mutual Temporal Attention (MTA) module. This module enhances features highly related to depressive states, yielding the weighted feature vector $f^{MTA}$, which is then used for prediction, resulting in the MTA prediction outcomes $D^{MTA}$.
-
+ 
+##### ****2. Feature Enhancement and Preliminary Prediction****
+- **MTB Output to MTA**: Each video clip's MTB feature, structured as $[k, J]$, is input into the Mutual Temporal Attention (MTA) module. This module enhances features strongly correlated with depressive states, producing a set of weighted feature vectors $[f^{\text{MTA}}_1, f^{\text{MTA}}_2, f^{\text{MTA}}_3,..., f^{\text{MTA}}_k]$. The dimensions of MTA features are also $[k, J]$. These are then concatenated to form the final output $F^\text{MTA}$, which has the shape $J$, resulting in features of shape $[N, J]$. Additionally, an auxiliary prediction head estimates the severity of depression as $p_n^{\text{MTA}}, n = (1,2,...,N)$.
   - Calculate the MTA Loss Function $L_{MTA}$:
 
-    $$L_{\text{MTA}} = \frac{1}{N} \sum_{n=1}^{N} \left(D_n^{\text{MTA}}-D_n\right)^{2}$$
-
-
-    Where, $D_n$ represents the corresponding depression level, used to train and assess model accuracy.
-
+    $$L_{\text{MTA}} = \frac{1}{N} \sum_{n=1}^{N} \left(p_n^{\text{MTA}}-g_n\right)^{2}$$
+where $g_n$ represents the depression level for the $n_{th}$ video clip.
 ##### 3. In-depth Feature Separation and Loss Calculation
 
-- **MTA Output to NS**: The feature vectors outputted from MTA are then passed into the **Noise Separation (NS)** component. This component separates features related to depression $F_{n}^\text{Dep}$ from unrelated noise $F_{n}^\text{Non}$, and reconstructs features $F_{n}^\text{Dec}$, as well as predicting depression levels $D_{NS}$.
+- **MTA Output to NS**: The feature vectors outputted from MTA are then passed into the **Noise Separation (NS)** component. This component separates features related to depression $F_{n}^\text{Dep})$ from unrelated noise $F_{n}^\text{Non}$, and reconstructs features $F_{n}^\text{Dec}$, as well as predicting depression levels $p^\text{NS}_{n}$, $n=(1,2,...,N)$.
 
   **Calculate NS-related Loss**:
 
   - Prediction Loss Function for NS $L_{NS}$:
 
-    $$L_{\text{NS}} = \frac{1}{N} \sum_{n=1}^{N} \left(D_n^{\text{NS}}-D_n\right)^{2}$$
+    $$L_{\text{NS}} = \frac{1}{N} \sum_{n=1}^{N} \left(p_n^{\text{NS}}-g_n\right)^{2}$$
 
-    Where,
-
-    $D_n^{\text{NS}}$ represents the predicted depression level for the $n^{th}$ sample.
-
-    $D_n$ represents the actual depression level for the $n^{th}$ sample.
+    where $p_n^{\text{NS}}$ represents the predicted depression level for the $n_{th}$ video clip.
 
   - Calculate Similarity Function $L_{sim}$:
  
-
-
     $$L_{\text{sim}} = \frac{1}{N^2}\sum_{n=1}^{N-1} \sum_{i=n+1}^n (F_{n}^\text{Dep}-F_{i}^\text{Dep})^2$$
 
-    Where,
-
-    $F_{n}^\text{Dep}$ and $F_{i}^\text{Dep}$ are depression-related features extracted from the shared depression encoder.
+    where $F_{n}^\text{Dep}$ and $F_{i}^\text{Dep}$ are depression-related features extracted from the shared depression encoder, while $n$ and $i$ are the indices of input features.
 
   - Calculate Dissimilarity Function $L_{D-sim}$:
 
     $$L_{\text{D-sim}} = \frac{1}{N^2} \sum_{n=1}^{N} \left\|(F_{n}^{\text{Dep}})^{\top} F_{n}^{\text{Non}} \right\|_{\text{Frob}}^{2}$$
 
-    Where,
-
-    $F_{n}^{\text{Dep}}$ is the depression-related feature for the $n^{th}$ input.
-
-    $F_{n}^{\text{Non}}$ is the non-depression-related feature for the $n^{th}$ input.
-
-    $\left\| \cdot \right \| ^{2}_{\text{Frob}}$ represents the squared Frobenius norm.
+    where $F_{n}^{\text{Dep}}$ is the depression-related feature for the $n_{th}$ input feature. $F_{n}^{\text{Non}}$ is the non-depression-related feature for the $n_{th}$ input feature. $\left\| \cdot \right \| ^{2}_{\text{Frob}}$ represents the squared Frobenius norm.
 
   - Calculate Reconstruction Function $L_{Rec}$:
 
     $$L_{\text{Rec}} = \frac{1}{N \times J} \sum_{n=1}^{N} \sum_{j=1}^{J} \left(F_n^{\text{Dec}}(j) - F_n(j)\right)^{2}$$
 
-    Where,
-
-    $F_n(j)$: Represents the $j_{\text{th}}$ element of the $n_{\text{th}}$ input feature vector. This is the original data that was input into the model.
-
-    $F_n^{\text{Dec}}(j)$: The $j_{\text{th}}$ element of the reconstructed feature vector for the $n_{\text{th}}$ sample, which is generated by the decoder.
-
-    $N$: Total number of samples in the dataset.
-
-    $J$: Number of features (or dimensions) in each feature vector.
+    where $F_n(j)$ represents the $j_{\text{th}}$ element of the $n_{\text{th}}$ input feature vector. $F_n^{\text{Dec}}(j)$: The $j_{\text{th}}$ element of the reconstructed feature vector for the $n_{\text{th}}$ input feature, which is generated by the decoder. $J$ is the number of or dimensions of $F^{\text{MTA}}_n$.
 
 - Integrating Losses: Combine $L_{MTA}$, $L_{NS}$, $L_{sim}$, $L_{D-sim}$, and $L_{Rec}$ to form $L_{short}$ for optimizing MTB-DFE, as follows:
 
     $$L_{\text{short}} =  L_{\text{NS}} + W_1 \times L_{\text{MTA}} + W_2 \times L_{\text{sim}} + W_3 \times L_{\text{D-sim}} + W_4 \times L_{\text{Rec}}$$
 
-    Where $W_1$, $W_2$, $W_3$ and $W_4$ are weights indicating the importance of each loss component.
+    where $W_1$, $W_2$, $W_3$ and $W_4$ are weights indicating the importance of each loss component. Here, we set all of them as 1.
 
 - Backpropagation: The loss $L_{\text{short}}$ is then backpropagated to optimize the parameters within the MTB-DFE model.
 
