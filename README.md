@@ -121,11 +121,12 @@ where $g_n$ represents the depression level for the $n_{th}$ video clip.
 - *Feature Integration*: The depression-related features of the $m_{th}$ video clip are aggregated from the features extracted by the NS module, denoted as $F_{i}^\text{Dep}, i= (1,2,...,I)$.
 - *Depression Level Prediction*: The feature set of the $m_{th}$ video is fed into the *SEG* module to predict the depression level, denoted as $p^{SEG}_{m}$.
 - Calculate the prediction loss function for **SEG**, $L_{SEG}$:
+  
 $$
 L_{\text{SEG}} = \frac{1}{M} \sum_{m=1}^{M} \left(p_m^{\text{SEG}}-g_m\right)^{2}
 $$
 
-     where $p_m^{\text{SEG}}$ represents the predicted depression level for the $m_{th}$ video as determined by **SEG**. Additionally, $g_m$ denotes the actual depression level for the $m_{th}$ video.
+  where $p_m^{\text{SEG}}$ represents the predicted depression level for the $m_{th}$ video as determined by **SEG**. Additionally, $g_m$ denotes the actual depression level for the $m_{th}$ video.
 
 - *Backpropagation*: The loss $L_{\text{SEG}}$ is then backpropagated to optimize the parameters within the SEG model.
 
@@ -136,11 +137,12 @@ $$
 - *Depression Level Prediction*: The spectral signal $B_m$ of the $m_{th}$ video is inputted into the *SPG* model to predict the depression level $p_m^{SPG}$.
 
 - Calculate the prediction loss function for **SPG**, $L_{SPG}$:
+
 $$
 L_{\text{SPG}} = \frac{1}{M} \sum_{m=1}^{M} \left(p_m^{\text{SPG}}-g_m\right)^{2}
 $$
 
-    where $p_m^{\text{SPG}}$ represents the predicted depression level for the $m_{th}$ video by **SPG**. $g_m$ represents the actual depression level for the $m_{th}$ video.
+  where $p_m^{\text{SPG}}$ represents the predicted depression level for the $m_{th}$ video by **SPG**. $g_m$ represents the actual depression level for the $m_{th}$ video.
 
 - *Backpropagation*: The loss $L_{\text{SPG}}$ is then backpropagated to optimize the parameters within the SPG model.
 
