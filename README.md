@@ -119,7 +119,7 @@ where $g_n$ represents the depression level for the $n_{th}$ video clip.
 
 ****SEG (Sequential Graph Representation)****
 - *Feature Integration*: The depression-related features of the $m_{th}$ video clip are aggregated from the features extracted by the NS module, denoted as $F_{i}^\text{Dep}, i= (1,2,...,I)$.
-- *Depression Level Prediction*: The feature set of the $m_{th}$ video is fed into the *SEG* module to predict the depression level, denoted as $p^{SEG}_{m}$.
+- *Depression Level Prediction*: The feature set of the $m_{th}$ video is fed into the **SEG** module to predict the depression level, denoted as $p^{SEG}_{m}$.
 - Calculate the prediction loss function for **SEG**, $L_{SEG}$:
   
 $$
@@ -134,7 +134,7 @@ $$
 - *Feature Integration*: The depression-related features of the $m_{th}$ video clip are aggregated from the features extracted by the NS module, denoted as $F_{i}^\text{Dep}, i= (1,2,...,I)$.
 - *Spectral Feature Processing*: The output $F_{i}^\text{Dep}, i= (1,2,...,I)$ from the **NS** module for each $m_{th}, m= (1,2,...,M)$ video is processed through `SpectralRepresentation.mlx` to obtain the spectral signal $B_m$, whose dimensions are $[J,K]$. Here, $J$ represents facial attributes, and $K$ denotes the number of low-frequency components.
 
-- *Depression Level Prediction*: The spectral signal $B_m$ of the $m_{th}$ video is inputted into the *SPG* model to predict the depression level $p_m^{SPG}$.
+- *Depression Level Prediction*: The spectral signal $B_m$ of the $m_{th}$ video is inputted into the **SPG** model to predict the depression level $p_m^{SPG}$.
 
 - Calculate the prediction loss function for **SPG**, $L_{SPG}$:
 
