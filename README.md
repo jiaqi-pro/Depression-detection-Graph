@@ -63,21 +63,20 @@ _No face extraction step is needed for the AVEC 2019 dataset as it provides feat
 
 This stage focuses on training the Multi-scale Temporal Behavioral Feature Extraction - Depression Feature Enhancement (MTB-DFE) model, which captures and enhances short-term depression behavioral features from each given video.
 
-Assuming we have $M$ videos, we initially acquire $I$ thin slices from each video, denoted as $m_{th}, m=(1,2,...,M)$, represented by $(S_1, S_2,...,S_I)$. Each training iteration processes batches of $N$ video sequences.
+Assuming we have $M$ videos, and through data processing, we extract a variable number of thin slices from each video, denoted as $I$. These slices for each video $m$ (where $m = 1, 2, \ldots, M$) are represented by $(S_1, S_2, \ldots, S_I)$. It's important to note that the number $I$ varies among the videos. Each training iteration processes batches of $N$ video clips.
 
-##### ****1. Input and Feature Extraction****
-- **Video Frame Sequence to MTB**: We first input the video sequences are then input into th MTB component as $S_n, n= (1,...,N)$ as training interation, yielding multi-scale spatio-temporal behavioral features $[f^{\text{MTB}}_1, f^{\text{MTB}}_2, f^{\text{MTB}}_3,..., f^{\text{MTB}}_k]$. Consequently, the dimensions of the MTB feature are represented as $[N, k, J]$, where $J$ signifies the dimensionality of each $f^{\text{MTB}}_k$.
+****1. Input and Feature Extraction****
+- *Video Frame Sequence to MTB*: Video clips $S_n, n= (1,...,N)$ are inputted into the MTB during the training iteration, yielding multi-scale spatio-temporal behavioral features $[f^{\text{MTB}}_1, f^{\text{MTB}}_2,..., f^{\text{MTB}}_k]$ for each sequence $S_n$. The dimensions of the MTB features are represented as $[N, k, J]$, where $J$ denotes the size of each feature $f^{\text{MTB}}_k$.
 
- 
-##### ****2. Feature Enhancement and Preliminary Prediction****
-- **MTB Output to MTA**: Each video clip's MTB feature, structured as $[k, J]$, is input into the Mutual Temporal Attention (MTA) module. This module enhances features strongly correlated with depressive states, producing a set of weighted feature vectors $[f^{\text{MTA}}_1, f^{\text{MTA}}_2, f^{\text{MTA}}_3,..., f^{\text{MTA}}_k]$. The dimensions of MTA features are also $[k, J]$. These are then concatenated to form the final output $F^\text{MTA}$, which has the shape $J$, resulting in features of shape $[N, J]$. Additionally, an auxiliary prediction head estimates the severity of depression as $p_n^{\text{MTA}}, n = (1,2,...,N)$.
+****2. Feature Enhancement and Preliminary Prediction****
+- *MTB Output to MTA*: Each feature set $f^{\text{MTB}}_k$ from $S_n$, with dimensions $[k, J]$, is inputted into the Mutual Temporal Attention (MTA) module. This module enhances features that are strongly correlated with depressive states, producing a set of weighted feature vectors $[f^{\text{MTA}}_1, f^{\text{MTA}}_2, f^{\text{MTA}}_3,..., f^{\text{MTA}}_k]$. The dimensions of the MTA features remain $[k, J]$. These features are then concatenated to form the final output $F^\text{MTA}$, which is shaped as $[N, J]$. Additionally, an auxiliary prediction head estimates the severity of depression as $p_n^{\text{MTA}}, n = (1,2,...,N)$.
   - Calculate the MTA Loss Function $L_{MTA}$:
 
     $$L_{\text{MTA}} = \frac{1}{N} \sum_{n=1}^{N} \left(p_n^{\text{MTA}}-g_n\right)^{2}$$
-where $g_n$ represents the depression level for the $n_{th}$ video sequ.
-##### 3. In-depth Feature Separation and Loss Calculation
+where $g_n$ represents the depression level for the $n_{th}$ video clip.
 
-- **MTA Output to NS**: The feature vectors outputted from MTA are then passed into the **Noise Separation (NS)** component. This component separates features related to depression $F_{n}^\text{Dep})$ from unrelated noise $F_{n}^\text{Non}$, and reconstructs features $F_{n}^\text{Dec}$, as well as predicting depression levels $p^\text{NS}_{n}$, $n=(1,2,...,N)$.
+****3.  In-depth Feature Separation and Loss Calculation****
+- **MTA Output to NS**: The feature vectors outputted from MTA are then passed into the **Noise Separation (NS)** component. This component separates features related to depression $F_{n}^\text{Dep}$ from unrelated noise $F_{n}^\text{Non}$, and reconstructs features $F_{n}^\text{Dec}$, as well as predicting depression levels $p^\text{NS}_{n}$, $n=(1,2,...,N)$.
 
   **Calculate NS-related Loss**:
 
