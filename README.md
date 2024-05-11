@@ -63,7 +63,7 @@ _No face extraction step is needed for the AVEC 2019 dataset as it provides feat
 
 This stage focuses on training the Multi-scale Temporal Behavioral Feature Extraction - Depression Feature Enhancement (MTB-DFE) model, which captures and enhances short-term depression behavioral features from each given video.
 
-Assuming we have $M$ videos, and through data processing, we extract a variable number of thin slices from each video, denoted as $I$. These slices for each video $m$ (where $m = 1, 2, \ldots, M$) are represented by $(S_1, S_2, \ldots, S_I)$. It's important to note that the number $I$ varies among the videos. Each training iteration processes batches of $N$ video clips.
+Assuming we have $M$ videos, we extract a variable number of thin slices, denoted as $I$, from each video through data processing. These slices for each video $m$, where $m = (1, 2, \ldots, M)$, are represented by $(S_1, S_2, \ldots, S_I)$. It is important to note that the number of slices $I$ varies among the videos, due to differences in the lengths of the videos.Each training iteration then processes batches of $N$ video clips.
 
 ****1. Input and Feature Extraction****
 - *Video Frame Sequence to MTB*: Video clips $S_n, n= (1,...,N)$ are inputted into the MTB during the training iteration, yielding multi-scale spatio-temporal behavioral features $[f^{\text{MTB}}_1, f^{\text{MTB}}_2,..., f^{\text{MTB}}_k]$ for each sequence $S_n$. The dimensions of the MTB features are represented as $[N, k, J]$, where $J$ denotes the size of each feature $f^{\text{MTB}}_k$.
