@@ -130,7 +130,7 @@ where $W_1$, $W_2$, $W_3$ and $W_4$ are weights indicating the importance of eac
 
 
 <p align="center">
-  <img src="fig/Graph-v2.png" alt="Graph" title="Graph" width="600">
+  <img src="fig/SEG_SPG.png" alt="Graph" title="Graph" width="600">
 </p>
 
 #### Stage Two: Training the SEG / SPG Models
