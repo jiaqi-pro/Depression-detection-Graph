@@ -60,9 +60,11 @@ _No face extraction step is needed for the AVEC 2019 dataset as it provides feat
 
 ### Training Process Overview
 
+A two-stage training strargtegy is proposed to train the proposed approach. 
+
 #### Stage One: Training the MTB-DFE Model
 
-This stage focuses on training the Multi-scale Temporal Behavioral Feature Extraction - Depression Feature Enhancement (MTB-DFE) model. 
+This stage focuses on training the Multi-scale Temporal Behavioral Feature Extraction - Depression Feature Enhancement (MTB-DFE) model in an end-to-end manner, where mutliple loss functions are jointly utilized. 
 
 Given videos $V_1, V_2, \cdots, V_M$ of varying lengths, we extract $I_1, I_2, \cdots, I_M$ thin slices from these videos ($I_1 \neq I_2 \neq  \cdots \neq  I_M$), where the slices of the $m$-th video $V_m$ ($m = 1, 2, \cdots, M$) are denoted as $(S^m_1, S^m_2, \cdots, S^m_{I_m})$. During training, we employ a batch training method where each batch consists of $N$ slices taken from different videos.
 
@@ -77,7 +79,7 @@ Given a set of thin slices $\{S_1, S_2, \cdots, S_N\}$ (coming from videos of di
 
 ***MTB Output to MTA:***
 
-Each extracted feature f_n is then processed by the Mutual Temporal Attention (MTA) module. This module enhances features that are strongly associated with depressive status, resulting in a set of weighted feature vectors $f^{n-MTA} = [f^{\text{n-MTA}}_1, f^{\text{n-MTA}}_2, f^{\text{n-MTA}}_3, \cdots, f^{\text{n-MTA}}_k]$, which is then flattened to form the final output vector $F^{\text{MTA}}_n$ that has the shape $[1, J]$, where $J = k \times j$. Consequently, an auxiliary prediction head is attached to estimate the depression severity $p_n^{\text{MTA}}$ from the obtained $F^{\text{MTA}}_n$, allowing the MTB and MTA modules to be supervised by intermediate loss  $L_{MTA}$ as:
+Each extracted feature f_n is then processed by the Mutual Temporal Attention (MTA) module. This module enhances features that are strongly associated with depressive status, resulting in a set of weighted feature vectors $f^{n-MTA} = [f^{\text{n-MTA}}_1, f^{\text{n-MTA}}_2, f^{\text{n-MTA}}_3, \cdots, f^{\text{n-MTA}}_k]$, which is then flattened to form the final output vector $F^{\text{MTA}}_n$ that has the shape $[1, J]$, where $J = k \times j$. Consequently, an auxiliary prediction head is attached to estimate the depression severity $p_n^{\text{MTA}}$ from the obtained $F^{\text{MTA}}_n$, allowing the MTB and MTA modules to be supervised by intermediate loss $L_{MTA}$ as:
 
   **Calculate the MTA Loss Function $L_{MTA}$:**
   
@@ -87,13 +89,16 @@ where $g_n$ represents the ground-truth depression severity corresponding to the
 
 ***MTA Output to NS*:** 
 
-When the video slices, $\{S_1, S_2, ..., S_N\}$, inputted the MTA module generate the feature set $\{F^\text{MTA}_1, F^\text{MTA}_2, ..., F^\text{MTA}_N\}$, this feature set is then fed into the **Noise Separation (NS)** module. The NS module can gernerate features associated with depression, denoted as $F_n^\text{Dep}$,  non-depression-related noise, denoted as $F_n^\text{Non}$ where $n=1, 2, ..., N$. It also reconstructs the feature of $F^\text{MTA}_n$, denoted as $F_n^\text{Dec}$.
-
-The depression-related features  $\{F_1^\text{Dep},F_2^\text{Dep}, \cdots,F_N^\text{Dep}\}$ are utilized to predict the depression severity, represented by $\{p^\text{NS}_1, p^\text{NS}_2 ,\cdots,p^\text{NS}_N\}$ for the video slices.
+The features $F^{\text{MTA}}_n$ ($n = 1, \cdots, N$) extracted from MTA are then fed to the **Noise Separation (NS)** module, which further extract noise-free depression features $F_n^\text{Dep}$ ($n = 1, \cdots, N$) and their disentangled noise representations. Based on these noise-free depression features and noise representations, the NS module also reconstructs the input features $F^\text{MTA}_n$ ($n = 1, \cdots, N$), denoted as $F_n^\text{Dec}$. Meanwhile, the depression-related features $\{F_1^\text{Dep}, F_2^\text{Dep}, \cdots, F_N^\text{Dep}\}$ are utilized to predict depression severities $\{p^\text{NS}_1, p^\text{NS}_2 , \cdots, p^\text{NS}_N\}$ for their corresponding video slices. Consequently, $L_{NS}$ is employed to compare the predictions $\{p^\text{NS}_1, p^\text{NS}_2 , \cdots, p^\text{NS}_N\}$ with their corresponding ground-truth depression severity as:
 
 **Calculate the NS Loss Function $L_{NS}$**
 
 $$L_{\text{NS}} = \frac{1}{N} \sum_{n=1}^{N} \left(p_n^{\text{NS}}-g_n\right)^{2}$$
+
+
+
+修改：
+
 
 **Calculate Similarity Function $L_{sim}$**
  
