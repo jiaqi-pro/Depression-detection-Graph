@@ -96,15 +96,16 @@ The features $F^{\text{MTA}}_n$ ($n = 1, \cdots, N$) extracted from MTA are then
 $$L_{\text{NS}} = \frac{1}{N} \sum_{n=1}^{N} \left(p_n^{\text{NS}}-g_n\right)^{2}$$
 
 
-
-修改：
-
+Then, the loss $L_{sim}$ is utilized to enforce the extracted depression features to be highly correlated with their corresponding depression status by enforncing the depression features extracted from thin slices corresponding to the same depression score to be similar as:
 
 **Calculate Similarity Function $L_{sim}$**
  
 $$L_{\text{sim}} = \frac{1}{N^2}\sum_{n=1}^{N-1} \sum_{i=n+1}^n (F_{n}^\text{Dep}-F_{i}^\text{Dep})^2$$
 
-where $F_{n}^\text{Dep}$ and $F_{i}^\text{Dep}$ are depression-related features extracted from the shared depression encoder, while $n$ and $i$ are the indices of video slices.
+where $F_{n}^\text{Dep}$ and $F_{i}^\text{Dep}$ are depression-related features extracted from the shared depression encoder, while $n$ and $i$ are the indices of video slices that represent subjects of the same depression score.
+
+
+修改
 
 **Calculate Dissimilarity Function $L_{D-sim}$**
 
