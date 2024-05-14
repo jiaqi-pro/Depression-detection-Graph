@@ -1,5 +1,4 @@
 
-
 <p align="left">
   <img src="fig/converted_logo.webp" width="200" height="200" alt="logo" title="logo">
 </p>
@@ -72,13 +71,13 @@ Given videos $V_1, V_2, \cdots, V_M$ of varying lengths, we extract $I_1, I_2, \
 
 ***Feeding a set of thin slices to MTB*:**
 
-Given a set of thin slices $\{S_1, S_2, \cdots, S_N\}$ (coming from videos of different inviduals), the MTB yields multi-scale ($k$ scales) spatio-temporal behavior features for each slice $S_n$ (where $n = 1, 2, \cdots, N$). These features are denoted by $[f^{\text{n-MTB}}_1, f^{\text{n-MTB}}_2, \cdots, f^{\text{n-MTB}}_k]$, where $k$ represents the number of spatial scales and the dimension of each multi-scale behavior feature is $[k,j]$ ($j$ denotes the dimensionality of the spatio-temporal behavior features).
+Given a set of thin slices $\{S_1, S_2, \cdots, S_N\}$ (coming from videos of different inviduals), the MTB yields a multi-scale ($k$ scales) spatio-temporal behavior feature $f_n = [f^{\text{n-MTB}}_1, f^{\text{n-MTB}}_2, \cdots, f^{\text{n-MTB}}_k]$ for each video slice $S_n$ (where $n = 1, 2, \cdots, N$), where $k$ represents the number of spatial scales and $j$ denotes the dimensionality of the feature describing each scale.
 
 ****2. Depression Feature Enhancement****
 
 ***MTB Output to MTA:***
 
-Each feature set $[f^{\text{n-MTB}}_1, f^{\text{n-MTB}}_2, \cdots, f^{\text{n-MTB}}_k]$ from $S_n$, processed by the MTB with dimensions $[k, j]$, is inputted into the Mutual Temporal Attention (MTA) module. This module enhances features that are strongly correlated with depressive states, resulting in a set of weighted feature vectors $[f^{\text{n-MTA}}_1, f^{\text{n-MTA}}_2, f^{\text{n-MTA}}_3, \cdots, f^{\text{n-MTA}}_k]$. The dimensions of the features processed by the MTA remains $[k, j]$. 
+The extracted $k$ features $[f^{\text{n-MTB}}_1, f^{\text{n-MTB}}_2, \cdots, f^{\text{n-MTB}}_k]$ from $S_n$, processed by the MTB with dimensions $[k, j]$, is inputted into the Mutual Temporal Attention (MTA) module. This module enhances features that are strongly correlated with depressive states, resulting in a set of weighted feature vectors $[f^{\text{n-MTA}}_1, f^{\text{n-MTA}}_2, f^{\text{n-MTA}}_3, \cdots, f^{\text{n-MTA}}_k]$. The dimensions of the features processed by the MTA remains $[k, j]$. 
 
 These vectors are subsequently concatenated and flattened to form the final output vector $F^{\text{MTA}}_n$, which has the shape $[1,J ]$, where $J = k \times j$. Additionally, an auxiliary prediction head estimates the severity of depression, denoted as $p_n^{\text{MTA}}$.  
 
