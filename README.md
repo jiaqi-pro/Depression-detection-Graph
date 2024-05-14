@@ -71,23 +71,19 @@ Given videos $V_1, V_2, \cdots, V_M$ of varying lengths, we extract $I_1, I_2, \
 
 ***Feeding a set of thin slices to MTB*:**
 
-Given a set of thin slices $\{S_1, S_2, \cdots, S_N\}$ (coming from videos of different inviduals), the MTB yields a multi-scale ($k$ scales) spatio-temporal behavior feature $f_n = [f^{\text{n-MTB}}_1, f^{\text{n-MTB}}_2, \cdots, f^{\text{n-MTB}}_k]$ for each video slice $S_n$ (where $n = 1, 2, \cdots, N$), where $k$ represents the number of spatial scales and $j$ denotes the dimensionality of the feature describing each scale.
+Given a set of thin slices $\{S_1, S_2, \cdots, S_N\}$ (coming from videos of different inviduals), the MTB yields a multi-scale ($k$ scales) spatio-temporal behavior feature $f^{n-MTB} = [f^{\text{n-MTB}}_1, f^{\text{n-MTB}}_2, \cdots, f^{\text{n-MTB}}_k]$ for each video slice $S_n$ (where $n = 1, 2, \cdots, N$), where $k$ represents the number of spatial scales and $j$ denotes the dimensionality of the feature describing each scale.
 
 ****2. Depression Feature Enhancement****
 
 ***MTB Output to MTA:***
 
-The extracted $k$ features $[f^{\text{n-MTB}}_1, f^{\text{n-MTB}}_2, \cdots, f^{\text{n-MTB}}_k]$ from $S_n$, processed by the MTB with dimensions $[k, j]$, is inputted into the Mutual Temporal Attention (MTA) module. This module enhances features that are strongly correlated with depressive states, resulting in a set of weighted feature vectors $[f^{\text{n-MTA}}_1, f^{\text{n-MTA}}_2, f^{\text{n-MTA}}_3, \cdots, f^{\text{n-MTA}}_k]$. The dimensions of the features processed by the MTA remains $[k, j]$. 
-
-These vectors are subsequently concatenated and flattened to form the final output vector $F^{\text{MTA}}_n$, which has the shape $[1,J ]$, where $J = k \times j$. Additionally, an auxiliary prediction head estimates the severity of depression, denoted as $p_n^{\text{MTA}}$.  
-
-Consequently, the input feature set $[f^{\text{n-MTB}}_1, f^{\text{n-MTB}}_2, \cdots, f^{\text{n-MTB}}_k]$ from $S_n$, after processing through the MTA, generates the feature $F^\text{MTA}_n$ and its predicted depression severity  $p_n^{\text{MTA}}$.
+Each extracted feature f_n is then processed by the Mutual Temporal Attention (MTA) module. This module enhances features that are strongly associated with depressive status, resulting in a set of weighted feature vectors $f^{n-MTA} = [f^{\text{n-MTA}}_1, f^{\text{n-MTA}}_2, f^{\text{n-MTA}}_3, \cdots, f^{\text{n-MTA}}_k]$, which is then flattened to form the final output vector $F^{\text{MTA}}_n$ that has the shape $[1, J]$, where $J = k \times j$. Consequently, an auxiliary prediction head is attached to estimate the depression severity $p_n^{\text{MTA}}$ from the obtained $F^{\text{MTA}}_n$, allowing the MTB and MTA modules to be supervised by intermediate loss  $L_{MTA}$ as:
 
   **Calculate the MTA Loss Function $L_{MTA}$:**
   
    $$L_{\text{MTA}} = \frac{1}{N} \sum_{n=1}^{N} \left(p_n^{\text{MTA}}-g_n\right)^{2}$$
     
-where $g_n$ represents the ground-truth depression severity for $S_n$.
+where $g_n$ represents the ground-truth depression severity corresponding to the input video slice $S_n$.
 
 ***MTA Output to NS*:** 
 
