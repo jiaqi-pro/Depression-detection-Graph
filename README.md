@@ -89,7 +89,9 @@ where $g_n$ represents the ground-truth depression severity corresponding to the
 
 ***MTA Output to NS*:** 
 
-The features $F^{\text{MTA}}_n$ ($n = 1, \cdots, N$) extracted from MTA are then fed to the **Noise Separation (NS)** module, which further extract noise-free depression features $F_n^\text{Dep}$ ($n = 1, \cdots, N$) and their disentangled noise representations. Based on these noise-free depression features and noise representations, the NS module also reconstructs the input features $F^\text{MTA}_n$ ($n = 1, \cdots, N$), denoted as $F_n^\text{Dec}$. Meanwhile, the depression-related features $\{F_1^\text{Dep}, F_2^\text{Dep}, \cdots, F_N^\text{Dep}\}$ are utilized to predict depression severities $\{p^\text{NS}_1, p^\text{NS}_2 , \cdots, p^\text{NS}_N\}$ for their corresponding video slices. Consequently, $L_{NS}$ is employed to compare the predictions $\{p^\text{NS}_1, p^\text{NS}_2 , \cdots, p^\text{NS}_N\}$ with their corresponding ground-truth depression severity as:
+The features $F^{\text{MTA}}_n$ ($n = 1, \cdots, N$) extracted from MTA are then fed to the **Noise Separation (NS)** module, which further extract noise-free depression features $F_n^\text{Dep}$ ($n = 1, \cdots, N$) and their disentangled noise representations. Based on these noise-free depression features and noise representations, the NS module also reconstructs the input features $F^\text{MTA}_n$ ($n = 1, \cdots, N$), denoted as $F_n^\text{Dec}$. Meanwhile, the depression-related features $\{F_1^\text{Dep}, F_2^\text{Dep}, \cdots, F_N^\text{Dep}\}$ are utilized to predict depression severities $\{p^\text{NS}_1, p^\text{NS}_2 , \cdots, p^\text{NS}_N\}$ for their corresponding video slices. 
+
+Consequently, $L_{NS}$ is employed to compare the predictions $\{p^\text{NS}_1, p^\text{NS}_2 , \cdots, p^\text{NS}_N\}$ with their corresponding ground-truth depression severity as:
 
 **Calculate the NS Loss Function $L_{NS}$**
 
