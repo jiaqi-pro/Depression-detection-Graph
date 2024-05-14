@@ -65,21 +65,21 @@ _No face extraction step is needed for the AVEC 2019 dataset as it provides feat
 
 This stage focuses on training the Multi-scale Temporal Behavioral Feature Extraction - Depression Feature Enhancement (MTB-DFE) model. 
 
-Given videos $V_1, V_2, \cdots, V_M$ of varying lengths, we extract $I_1, I_2, \cdots, I_M$ thin slices from these video ($I_1 \neq I_2 \neq  \cdots \neq  I_M$). From the $m$-th video $V_m$ (where $m = 1, 2, \cdots, M$), the slices are denoted as $(S^m_1, S^m_2, \cdots,, S^m_{I_m})$. During training, we employ a batch training method where each batch consists of $N$ slices taken from different videos.
+Given videos $V_1, V_2, \cdots, V_M$ of varying lengths, we extract $I_1, I_2, \cdots, I_M$ thin slices from these video ($I_1 \neq I_2 \neq  \cdots \neq  I_M$). From the $m$-th video $V_m$ (where $m = 1, 2, \cdots, M$), the slices are denoted as $(S^m_1, S^m_2, \cdots, S^m_{I_m})$. During training, we employ a batch training method where each batch consists of $N$ slices taken from different videos.
 
 
 ****1. Multi-scale Temporal Behavioural Feature Extraction****
 
 ***Video Frame Sequence to MTB*:**
 
-The video slices $\{S_1, S_2, \cdots,, S_N\}$ are fed into the MTB. This process yields multi-scale spatio-temporal behavior features for each slice $S_n$ (where $n = 1, 2, \cdots,, N$). These features are denoted by $[f^{\text{n-MTB}}_1, f^{\text{n-MTB}}_2, \cdots,, f^{\text{n-MTB}}_k]$, where $k$ represents the number of spatio-temporal scales . The resulting feature dimension for each slice $S_n$ that passes through the MTB is $[k,j ]$, with $j$ being the dimensionality of the spatio-temporal behavior features.
+The video slices $\{S_1, S_2, \cdots, S_N\}$ are fed into the MTB. This process yields multi-scale spatio-temporal behavior features for each slice $S_n$ (where $n = 1, 2, \cdots, N$). These features are denoted by $[f^{\text{n-MTB}}_1, f^{\text{n-MTB}}_2, \cdots, f^{\text{n-MTB}}_k]$, where $k$ represents the number of spatio-temporal scales . The resulting feature dimension for each slice $S_n$ that passes through the MTB is $[k,j ]$, with $j$ being the dimensionality of the spatio-temporal behavior features.
 
 
 ****2. Depression Feature Enhancement****
 
 ***MTB Output to MTA:***
 
-Each feature set $[f^{\text{n-MTB}}_1, f^{\text{n-MTB}}_2, \cdots,, f^{\text{n-MTB}}_k]$ from  $S_n$, processed by the MTB with dimensions $[k, j]$, is inputted into the Mutual Temporal Attention (MTA) module. This module enhances features that are strongly correlated with depressive states, resulting in a set of weighted feature vectors $[f^{\text{n-MTA}}_1, f^{\text{n-MTA}}_2, f^{\text{n-MTA}}_3, \cdots,, f^{\text{n-MTA}}_k]$. The dimensions of the features processed by the MTA remains $[k, j]$. 
+Each feature set $[f^{\text{n-MTB}}_1, f^{\text{n-MTB}}_2, \cdots, f^{\text{n-MTB}}_k]$ from  $S_n$, processed by the MTB with dimensions $[k, j]$, is inputted into the Mutual Temporal Attention (MTA) module. This module enhances features that are strongly correlated with depressive states, resulting in a set of weighted feature vectors $[f^{\text{n-MTA}}_1, f^{\text{n-MTA}}_2, f^{\text{n-MTA}}_3, \cdots, f^{\text{n-MTA}}_k]$. The dimensions of the features processed by the MTA remains $[k, j]$. 
 
 These vectors are subsequently concatenated and flattened to form the final output vector $F^{\text{MTA}}_n$, which has the shape $[1,J ]$, where $J = k \times j$. Additionally, an auxiliary prediction head estimates the severity of depression, denoted as $p_n^{\text{MTA}}$.  
 
@@ -95,7 +95,7 @@ where $g_n$ represents the ground-truth depression severity for $S_n$.
 
 When the video slices, $\{S_1, S_2, ..., S_N\}$, inputted the MTA module generate the feature set $\{F^\text{MTA}_1, F^\text{MTA}_2, ..., F^\text{MTA}_N\}$, this feature set is then fed into the **Noise Separation (NS)** module. The NS module can gernerate features associated with depression, denoted as $F_n^\text{Dep}$,  non-depression-related noise, denoted as $F_n^\text{Non}$ where $n=1, 2, ..., N$. It also reconstructs the feature of $F^\text{MTA}_n$, denoted as $F_n^\text{Dec}$.
 
-The depression-related features  $\{F_1^\text{Dep},F_2^\text{Dep}, \cdots,,F_N^\text{Dep}\}$ are utilized to predict the depression severity, represented by $\{p^\text{NS}_1, p^\text{NS}_2 ,\cdots,,p^\text{NS}_N\}$ for the video slices.
+The depression-related features  $\{F_1^\text{Dep},F_2^\text{Dep}, \cdots,F_N^\text{Dep}\}$ are utilized to predict the depression severity, represented by $\{p^\text{NS}_1, p^\text{NS}_2 ,\cdots,p^\text{NS}_N\}$ for the video slices.
 
 **Calculate the NS Loss Function $L_{NS}$**
 
@@ -139,11 +139,11 @@ where $W_1$, $W_2$, $W_3$ and $W_4$ are weights indicating the importance of eac
 
  ***Feature Integration*:** 
 
-Assuming the MTB-DFE has been trained, we will utilize it to extract depression-related features for subsequent processes. For each video $V_m$ (where $m=1, 2, \cdots,, M$), which is composed of slices $(S^m_1, S^m_2, \cdots,, S^m_{I_m})$, we input these slices into the MTB-DFE. This process yields the set of depression-related features $\{F_{1}^{m-Dep}, F_{2}^{m-Dep}, \cdots,, F_{I_m}^{m-Dep}\}$ of  $V_m$.
+Assuming the MTB-DFE has been trained, we will utilize it to extract depression-related features for subsequent processes. For each video $V_m$ (where $m=1, 2, \cdots, M$), which is composed of slices $(S^m_1, S^m_2, \cdots, S^m_{I_m})$, we input these slices into the MTB-DFE. This process yields the set of depression-related features $\{F_{1}^{m-Dep}, F_{2}^{m-Dep}, \cdots, F_{I_m}^{m-Dep}\}$ of  $V_m$.
 
  ***Depression Severity Prediction*:**
 
-The depression-related features of video $V_m$, denoted as $\{F_{1}^{m-Dep}, F_{2}^{m-Dep}, \cdots,, F_{I_m}^{m-Dep}\}$, are fed into the **SEG** module. This module predicts the severity of depression, represented by $p^{SEG}_m$, for each video.
+The depression-related features of video $V_m$, denoted as $\{F_{1}^{m-Dep}, F_{2}^{m-Dep}, \cdots, F_{I_m}^{m-Dep}\}$, are fed into the **SEG** module. This module predicts the severity of depression, represented by $p^{SEG}_m$, for each video.
 
 **Calculate the prediction loss function for **SEG**, $L_{SEG}$:**
   
@@ -162,11 +162,11 @@ The same processing as SEG's feature integration.
 
 ***Spectral Feature Processing***
 
-The depression-related features of video $V_m$, denoted as $\{F_{1}^{m-Dep}, F_{2}^{m-Dep}, \cdots,, F_{I_m}^{m-Dep}\}$ are processed through `SpectralRepresentation.mlx` to obtain the spectral signal sequence $\{B_1^{m-Dep}, B_2^{m-Dep},\cdots,,B_J^{m-Dep}  \}$.Here, $J$ represents facial attributes. The size of $B_j^{m-Dep}, j = 1,2,\cdots,,J $ is $K$ denoting the number of low-frequency components.
+The depression-related features of video $V_m$, denoted as $\{F_{1}^{m-Dep}, F_{2}^{m-Dep}, \cdots, F_{I_m}^{m-Dep}\}$ are processed through `SpectralRepresentation.mlx` to obtain the spectral signal sequence $\{B_1^{m-Dep}, B_2^{m-Dep},\cdots,B_J^{m-Dep}  \}$.Here, $J$ represents facial attributes. The size of $B_j^{m-Dep}, j = 1,2,\cdots,J $ is $K$ denoting the number of low-frequency components.
 
 ***Depression Severity Prediction***
 
- The spectral signal $\{B_1^{m-Dep}, B_2^{m-Dep},\cdots,,B_J^{m-Dep}  \}$ of the $m$-th video is inputted into the **SPG** model to predict the depression severity $p_m^{SPG}$.
+ The spectral signal $\{B_1^{m-Dep}, B_2^{m-Dep},\cdots,B_J^{m-Dep}  \}$ of the $m$-th video is inputted into the **SPG** model to predict the depression severity $p_m^{SPG}$.
 
 **Calculate the prediction loss function for **SPG**, $L_{SPG}$:**
 
