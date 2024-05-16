@@ -1,5 +1,6 @@
 
 
+
 <p align="left">
   <img src="fig/converted_logo.webp" width="200" height="200" alt="logo" title="logo">
 </p>
@@ -80,7 +81,13 @@ Given a set of thin slices $\{S_1, S_2, \cdots, S_N\}$ (coming from videos of di
 
 ***MTB Output to MTA:***
 
-Each extracted feature $f_n$ is then processed by the Mutual Temporal Attention (MTA) module. This module enhances features that are strongly associated with depressive status, resulting in a set of weighted feature vectors $f^{n-MTA} = [f^{\text{n-MTA}}_1, f^{\text{n-MTA}}_2, f^{\text{n-MTA}}_3, \cdots, f^{\text{n-MTA}}_k]$, which is then flattened to form the final output vector $F^{\text{MTA}}_n$ that has the shape $[1, J]$, where $J = k \times j$. Consequently, an auxiliary prediction head is attached to estimate the depression severity $p_n^{\text{MTA}}$ from the obtained $F_n^{\text{MTA}}$, allowing the MTB and MTA modules to be supervised by loss function shown as :
+Each extracted feature $f_n$ is then processed by the Mutual Temporal Attention (MTA) module. This module enhances features that are strongly associated with depressive status, resulting in a set of weighted feature vectors $f^{n-MTA} = [f^{\text{n-MTA}}_1, f^{\text{n-MTA}}_2, f^{\text{n-MTA}}_3, \cdots, f^{\text{n-MTA}}_k]$, which is then flattened to form the final output vector $F^{\text{MTA}}_n$ that has the shape $[1, J]$, where $J = k \times j$.
+
+Consequently, an auxiliary prediction head is attached to estimate the depression severity $p_n^{\text{MTA}}$ from the obtained $F_n^{\text{MTA}}$,
+
+allowing the MTB and MTA modules to be supervised by intermediate loss $L_{\text{MTA}}$ as:
+
+
 
   **Calculate the MTA Loss Function $L_{MTA}$:**
   
@@ -90,7 +97,11 @@ where $g_n$ represents the ground-truth depression severity corresponding to the
 
 ***MTA Output to NS*:** 
 
-The features $F^{\text{MTA}}_n$ ($n = 1, \cdots, N$) extracted from MTA are then fed to the **Noise Separation (NS)** module, which further extract noise-free depression features $F_n^\text{Dep}$ ($n = 1, \cdots, N$) and their disentangled noise representations $F_n^\text{Non}$ ($n = 1, \cdots, N$) . Based on these noise-free depression features and noise representations, the NS module also reconstructs the input features $F^\text{MTA}_n$ ($n = 1, \cdots, N$), denoted as $F_n^\text{Dec}$. Meanwhile, the depression-related features $\{F_1^\text{Dep}, F_2^\text{Dep}, \cdots, F_N^\text{Dep}\}$ are utilized to predict depression severities $\{p^\text{NS}_1, p^\text{NS}_2 , \cdots, p^\text{NS}_N\}$ for their corresponding video slices. 
+The features $F^{\text{MTA}}_n$ ($n = 1, \cdots, N$) extracted from MTA are then fed to the **Noise Separation (NS)** module, which further extract noise-free depression features $F_n^\text{Dep}$ ($n = 1, \cdots, N$) and their disentangled noise representations $F_n^\text{Non}$ ($n = 1, \cdots, N$) . 
+
+Based on these noise-free depression features and noise representations, the NS module also reconstructs the input features $F^\text{MTA}_n$ ($n = 1, \cdots, N$), denoted as $F_n^\text{Dec}$. 
+
+Meanwhile, the depression-related features $\{F_1^\text{Dep}, F_2^\text{Dep}, \cdots, F_N^\text{Dep}\}$ are utilized to predict depression severities $\{p^\text{NS}_1, p^\text{NS}_2 , \cdots, p^\text{NS}_N\}$ for their corresponding video slices. 
 
 Consequently, $L_{NS}$ is employed to compare the predictions $\{p^\text{NS}_1, p^\text{NS}_2 , \cdots, p^\text{NS}_N\}$ with their corresponding ground-truth depression severity as:
 
@@ -177,7 +188,9 @@ The same processing as SEG's ***Extract Depression-Related Features*** is applie
 
 ***Generate the Spectral Feature:***
 
-The depression-related features of the $m$-th video $V_m$, denoted as $\{F_{1}^{m-Dep}, F_{2}^{m-Dep}, \cdots, F_{I_m}^{m-Dep}\}$, are processed through `SpectralRepresentation.mlx` to obtain the spectral signal sequence $\{B_1^{m-Dep}, B_2^{m-Dep}, \cdots, B_J^{m-Dep}\}$. Here, $J$ represents facial attributes and is the same for all videos, while the size of $B_j^{m-Dep}$ ($j = 1, 2, \cdots, J$) is $K$, denoting the number of low-frequency components.
+The depression-related features of the $m$-th video $V_m$, denoted as $\{F_{1}^{m-Dep}, F_{2}^{m-Dep}, \cdots, F_{I_m}^{m-Dep}\}$, are processed through `SpectralRepresentation.mlx` to obtain the spectral signal sequence $\{B_1^{m-Dep}, B_2^{m-Dep}, \cdots, B_J^{m-Dep}\}$. 
+
+Here, $J$ represents facial attributes and is the same for all videos, while the size of $B_j^{m-Dep}$ ($j = 1, 2, \cdots, J$) is $K$, denoting the number of low-frequency components.
 
 ***Predict Depression Severity:***
 
