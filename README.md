@@ -152,7 +152,7 @@ where $W_1$, $W_2$, $W_3$ and $W_4$ are weights indicating the importance of eac
 The loss $L_{\text{short}}$ is then backpropagated to optimize the parameters within the MTB-DFE model.
 
 <p align="center">
-  <img src="fig/SPG_jiaqi_v10.png.png" alt="Graph" title="Graph" width="600">
+  <img src="fig/SPG_jiaqi_v10.png" alt="Graph" title="Graph" width="600">
 </p>
 
 #### Stage Two: Training the SEG / SPG Models
