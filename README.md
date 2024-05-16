@@ -123,7 +123,7 @@ where $F_{n}^\text{Dep}$ and $F_{i}^\text{Dep}$ are depression-related features 
 
 Next, the loss $L_{D-sim}$ is employed to encourage depression-related and non-depression feature components extracted from the same clip to be orthogonal (dissimilar).
 
-**Calculate Dissimilarity Function $L_{D-sim}$**
+**Calculate Dissimilarity Loss Function $L_{D-sim}$**
 
 $$L_{\text{D-sim}} = \frac{1}{N^2} \sum_{n=1}^{N} \left\|(F_{n}^{\text{Dep}})^{\top} F_{n}^{\text{Non}} \right\|_{\text{Frob}}^{2}$$
 
@@ -132,7 +132,7 @@ where $F_{n}^{\text{Dep}}$ is the depression-related feature and $F_{n}^{\text{N
 
 Furthermore, the loss $L_{Rec}$ is utilized to ensure that the input of the NS moudle can be reconstructed from the extracted depression-related and non-depression feature components using the decoder.
 
-**Calculate Reconstruction Function $L_{Rec}$**
+**Calculate Reconstruction Loss Function $L_{Rec}$**
 
 $$L_{\text{Rec}} = \frac{1}{N \times J} \sum_{n=1}^{N} \sum_{j=1}^{J} \left(F_n^{\text{Dec}}(j) - F_n(j)\right)^{2}$$
 
@@ -141,7 +141,7 @@ where $F_n(j)$ and $F_n^{\text{Dec}}(j)$ are the $j$-th element of the $n$-th in
 
 The final loss function for optimizing the MTB-DFE module can be defined as the $L_{short}$, which is the combination of the above loss functions $L_{MTA}$, $L_{NS}$, $L_{sim}$, $L_{D-sim}$, and $L_{Rec}$.
 
-**Calculate the MTB-DFE  loss Function $L_{short}$**
+**Calculate the MTB-DFE  Loss Function $L_{short}$**
 
 $$L_{\text{short}} =  L_{\text{NS}} + W_1 \times L_{\text{MTA}} + W_2 \times L_{\text{sim}} + W_3 \times L_{\text{D-sim}} + W_4 \times L_{\text{Rec}}$$
 
@@ -169,7 +169,7 @@ The depression-related features of the $m$-th video $V_m$, denoted as $\{F_{1}^{
 
 Consequently, the loss function $L_{SEG}$ is utilized to compare the predictions $\{p^{SEG}_1, p^{SEG}_2, \cdots, p^{SEG}_M\}$ of the videos $\{V_1, V_2, \cdots, V_M\}$ with their corresponding ground-truth depression severity $\{g_1, g_2, \cdots, g_M\}$ .
 
-**Calculate the prediction loss function for **SEG**, $L_{SEG}$:**
+**Calculate the Prediction Loss Function for **SEG**, $L_{SEG}$:**
   
 $$
 L_{\text{SEG}} = \frac{1}{M} \sum_{m=1}^{M} \left(p_m^{\text{SEG}}-g_m\right)^{2}
