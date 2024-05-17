@@ -157,20 +157,16 @@ We first apply the well-trained MTB-DFE model to extract depression-related feat
 
 ***Predict Depression Severity:***
 
-The depression-related features of the $m$-th video $V_m$, denoted as $\{F_{1}^{m-Dep}, F_{2}^{m-Dep}, \cdots, F_{I_m}^{m-Dep}\}$, are then fed into the **SEG** module. This module predicts the severity of depression for the $m$-th video $V_m$, represented by $p^{SEG}_m$.
-
-Consequently, the loss function $L_{SEG}$ is utilized to compare the predictions $\{p^{SEG}_1, p^{SEG}_2, \cdots, p^{SEG}_M\}$ of the videos $\{V_1, V_2, \cdots, V_M\}$ with their corresponding ground-truth depression severity $\{g_1, g_2, \cdots, g_M\}$ .
+The depression-related features  $\{F_{1}^{m-Dep}, F_{2}^{m-Dep}, \cdots, F_{I_m}^{m-Dep}\}$ extracted from the thin slices of the $m$-th video $V_m$ are then fed into the **SEG** module to make the video-level depression predition $p^{SEG}_m$. 
 
 **Calculate the Prediction Loss Function for **SEG**, $L_{SEG}$:**
-  
+
+Consequently, the loss function $L_{SEG}$ is utilized to train the SEG module by comparing the predictions $\{p^{SEG}_1, p^{SEG}_2, \cdots, p^{SEG}_M\}$ of the videos $\{V_1, V_2, \cdots, V_M\}$ with their corresponding ground-truth depression severity $\{g_1, g_2, \cdots, g_M\}$ as:
+
 $$
 L_{\text{SEG}} = \frac{1}{M} \sum_{m=1}^{M} \left(p_m^{\text{SEG}}-g_m\right)^{2}
 $$
 
-
-***Backpropagation:***
-
-The loss $L_{\text{SEG}}$ is then backpropagated to optimize the parameters within the **SEG** model.
 
 ****2. SPG (Spectral Graph Representation)****
 
