@@ -83,11 +83,7 @@ Given a set of thin slices $\{S_1, S_2, \cdots, S_N\}$ (coming from videos of di
 
 Each extracted feature $f_n$ is then processed by the Mutual Temporal Attention (MTA) module. This module enhances features that are strongly associated with depressive status, resulting in a set of weighted feature vectors $f^{n-MTA} = [f^{\text{n-MTA}}_1, f^{\text{n-MTA}}_2, f^{\text{n-MTA}}_3, \cdots, f^{\text{n-MTA}}_k]$, which is then flattened to form the final output vector $F^{\text{MTA}}_n$ that has the shape $[1, J]$, where $J = k \times j$.
 
-Consequently, an auxiliary prediction head is attached to estimate the depression severity $p_n^{\text{MTA}}$ from the obtained $F_n^{\text{MTA}}$,
-
-allowing the MTB and MTA modules to be supervised by intermediate loss $L_{\text{MTA}}$ as:
-
-
+Consequently, an auxiliary prediction head is attached to estimate the depression severity $p_n^{\text{MTA}}$ from the obtained $F_n^{\text{MTA}}$, allowing the MTB and MTA modules to be supervised by intermediate loss $L_{\text{MTA}}$ as:
 
   **Calculate the MTA Loss Function $L_{MTA}$:**
   
@@ -95,22 +91,19 @@ allowing the MTB and MTA modules to be supervised by intermediate loss $L_{\text
     
 where $g_n$ represents the ground-truth depression severity corresponding to the input video slice $S_n$.
 
+
 ***MTA Output to NS*:** 
 
-The features $F^{\text{MTA}}_n$ ($n = 1, \cdots, N$) extracted from MTA are then fed to the **Noise Separation (NS)** module, which further extract noise-free depression features $F_n^\text{Dep}$ ($n = 1, \cdots, N$) and their disentangled noise representations $F_n^\text{Non}$ ($n = 1, \cdots, N$) . 
+The features $F^{\text{MTA}}_n$ ($n = 1, \cdots, N$) extracted from MTA are then fed to the **Noise Separation (NS)** module, which further extract noise-free depression features $F_n^\text{Dep}$ ($n = 1, \cdots, N$) and their disentangled noise representations $F_n^\text{Non}$ ($n = 1, \cdots, N$). Based on these noise-free depression features and noise representations, the NS module also reconstructs the input features $F^\text{MTA}_n$ ($n = 1, \cdots, N$), denoted as $F_n^\text{Dec}$. Meanwhile, the depression-related features $\{F_1^\text{Dep}, F_2^\text{Dep}, \cdots, F_N^\text{Dep}\}$ are utilized to predict depression severities $\{p^\text{NS}_1, p^\text{NS}_2 , \cdots, p^\text{NS}_N\}$ for their corresponding video slices. 
 
-Based on these noise-free depression features and noise representations, the NS module also reconstructs the input features $F^\text{MTA}_n$ ($n = 1, \cdots, N$), denoted as $F_n^\text{Dec}$. 
-
-Meanwhile, the depression-related features $\{F_1^\text{Dep}, F_2^\text{Dep}, \cdots, F_N^\text{Dep}\}$ are utilized to predict depression severities $\{p^\text{NS}_1, p^\text{NS}_2 , \cdots, p^\text{NS}_N\}$ for their corresponding video slices. 
-
-Consequently, $L_{NS}$ is employed to compare the predictions $\{p^\text{NS}_1, p^\text{NS}_2 , \cdots, p^\text{NS}_N\}$ with their corresponding ground-truth depression severity as:
+Consequently, the loss $L_{NS}$ is employed to compare the predictions $\{p^\text{NS}_1, p^\text{NS}_2 , \cdots, p^\text{NS}_N\}$ with their corresponding ground-truth depression severity as:
 
 **Calculate the NS Loss Function $L_{NS}$**
 
 $$L_{\text{NS}} = \frac{1}{N} \sum_{n=1}^{N} \left(p_n^{\text{NS}}-g_n\right)^{2}$$
 
 
-Then, the loss $L_{sim}$ is utilized to enforce the extracted depression features to be highly correlated with their corresponding depression status by enforncing the depression features extracted from thin slices corresponding to the same depression score to be similar as:
+Then, the loss $L_{sim}$ is utilized to enforce the extracted depression features to be highly correlated with their corresponding depression status. This is achieved by enforncing the depression features extracted from thin slices corresponding to the same depression score to be similar as:
 
 **Calculate Similarity Function $L_{sim}$**
  
@@ -119,7 +112,6 @@ $$L_{\text{sim}} = \frac{1}{N^2}\sum_{n=1}^{N-1} \sum_{i=n+1}^n (F_{n}^\text{Dep
 where $F_{n}^\text{Dep}$ and $F_{i}^\text{Dep}$ are depression-related features extracted from the shared depression encoder, while $n$ and $i$ are the indices of video slices that represent subjects of the same depression score.
 
 
-修改
 
 Next, the loss $L_{D-sim}$ is employed to encourage depression-related and non-depression feature components extracted from the same clip to be orthogonal (dissimilar).
 
