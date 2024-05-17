@@ -176,27 +176,21 @@ The same processing as SEG's ***Extract Depression-Related Features*** is applie
 
 ***Generate the Spectral Feature:***
 
-The depression-related features of the $m$-th video $V_m$, denoted as $\{F_{1}^{m-Dep}, F_{2}^{m-Dep}, \cdots, F_{I_m}^{m-Dep}\}$, are processed through `SpectralRepresentation.mlx` to obtain the spectral signal sequence $\{B_1^{m-Dep}, B_2^{m-Dep}, \cdots, B_J^{m-Dep}\}$. 
-
-Here, $J$ represents facial attributes and is the same for all videos, while the size of $B_j^{m-Dep}$ ($j = 1, 2, \cdots, J$) is $K$, denoting the number of low-frequency components.
+The depression-related thin slice-level features $\{F_{1}^{m-Dep}, F_{2}^{m-Dep}, \cdots, F_{I_m}^{m-Dep}\}$ of the $m$-th video $V_m$ are processed through `SpectralRepresentation.mlx` to obtain the spectral signal sequence $\{B_1^{m-Dep}, B_2^{m-Dep}, \cdots, B_J^{m-Dep}\}$, where $J$ represents facial attributes and is the same for all videos, while the dimension of $B_j^{m-Dep}$ ($j = 1, 2, \cdots, J$) is $K$, denoting the number of low-frequency components.
 
 ***Predict Depression Severity:***
 
 The spectral signals $\{B_1^{m-Dep}, B_2^{m-Dep}, \cdots, B_J^{m-Dep}\}$ of the $m$-th video are input into the **SPG** model to predict the depression severity $p_m^{SPG}$.
 
-Consequently, the loss function $L_{SPG}$ is utilized to compare the predictions $\{p^{SPG}_1, p^{SPG}_2, \cdots, p^{SPG}_M\}$ of the videos $\{V_1, V_2, \cdots, V_M\}$ with their corresponding ground-truth depression severity $\{g_1, g_2, \cdots, g_M\}$.
-
 **Calculate the Prediction Loss Function for SPG, $L_{SPG}$:**
 
+Consequently, the loss function $L_{SPG}$ is utilized to to train the SPG module by comparing the predictions $\{p^{SPG}_1, p^{SPG}_2, \cdots, p^{SPG}_M\}$ of the videos $\{V_1, V_2, \cdots, V_M\}$ with their corresponding ground-truth depression severity $\{g_1, g_2, \cdots, g_M\}$ as
 $$
 L_{\text{SPG}} = \frac{1}{M} \sum_{m=1}^{M} \left(p_m^{\text{SPG}} - g_m\right)^{2}
 $$
 
 where $p_m^{\text{SPG}}$ represents the predicted depression severity for the $m$-th video, and $g_m$ denotes the ground-truth depression severity for the $m$-th video.
 
-***Backpropagation:***
-
-The loss $L_{\text{SPG}}$ is then backpropagated to optimize the parameters within the **SPG** model.
 
 
 ## Weight Downloads
