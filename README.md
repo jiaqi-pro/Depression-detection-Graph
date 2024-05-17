@@ -153,7 +153,7 @@ where $W_1$, $W_2$, $W_3$ and $W_4$ are weights indicating the importance of eac
 
 ***Extract Depression-Related Features:***
 
-Assuming the MTB-DFE model has been trained, we use it to extract depression-related features. The slices of the $m$-th video $V_m$ ($m = 1, 2, \cdots, M$), denoted as $(S^m_1, S^m_2, \cdots, S^m_{I_m})$, are input into the MTB-DFE, yielding the corresponding depression-related features $\{F_{1}^{m-Dep}, F_{2}^{m-Dep}, \cdots, F_{I_m}^{m-Dep}\}$.
+We first apply the well-trained MTB-DFE model to extract depression-related features from the thin slices of the $m$-th video $V_m$ ($m = 1, 2, \cdots, M$), denoted as $(S^m_1, S^m_2, \cdots, S^m_{I_m})$, yielding the corresponding depression-related features $\{F_{1}^{m-Dep}, F_{2}^{m-Dep}, \cdots, F_{I_m}^{m-Dep}\}$.
 
 ***Predict Depression Severity:***
 
