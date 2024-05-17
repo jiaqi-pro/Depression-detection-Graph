@@ -184,7 +184,10 @@ The spectral signals $\{B_1^{m-Dep}, B_2^{m-Dep}, \cdots, B_J^{m-Dep}\}$ of the 
 
 **Calculate the Prediction Loss Function for SPG, $L_{SPG}$:**
 
-Consequently, the loss function $L_{SPG}$ is utilized to to train the SPG module by comparing the predictions $\{p^{SPG}_1, p^{SPG}_2, \cdots, p^{SPG}_M\}$ of the videos $\{V_1, V_2, \cdots, V_M\}$ with their corresponding ground-truth depression severity $\{g_1, g_2, \cdots, g_M\}$ as
+Consequently, the loss function $L_{SPG}$ is utilized to to train the SPG module by comparing the predictions $\{p^{SPG}_1, p^{SPG}_2, \cdots, p^{SPG}_M\}$ 
+
+of the videos $\{V_1, V_2, \cdots, V_M\}$ with their corresponding ground-truth depression severity $\{g_1, g_2, \cdots, g_M\}$ as
+
 $$
 L_{\text{SPG}} = \frac{1}{M} \sum_{m=1}^{M} \left(p_m^{\text{SPG}} - g_m\right)^{2}
 $$
