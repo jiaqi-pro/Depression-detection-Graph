@@ -1,4 +1,4 @@
-<p align="left">
+![image](https://github.com/jiaqi-pro/Depression-detection-Graph/assets/116873694/25fd4a3f-d813-4ef3-994a-a9e1271e3636)<p align="left">
   <img src="fig/converted_logo.webp" width="200" height="200" alt="logo" title="logo">
 </p>
 
@@ -156,3 +156,15 @@ NS子模块专注于进一步分离和降低非抑郁噪声，优化最终特征
 3. Ringeval F, Schuller B, Valstar M, et al. AVEC 2019 workshop and challenge: state-of-mind, detecting depression with AI, and cross-cultural affect recognition[C]. 2019.
 4. Yang C, Xu Y, Shi J, et al. Temporal pyramid network for action recognition[C]. 2020.
 5. Song S, Jaiswal S, Shen L, et al. Spectral representation of behaviour primitives for depression analysis[J]. IEEE Transactions on Affective Computing, 2020.
+
+
+
+
+
+Specifically, given the video-level facial behaviour representation (corresponding to the $n_{th}$ video) extracted by our MTB-DFE, we define its size as $[K_n, J]$, where $K_n$ represents the number of segments of the video and $J$ represents the dimension of each segment-level depression feature. Then, we construct its SEG with $K_n$ nodes with each node feature having $J$ attributes. For each node $v^n_{i}$ representing the $i$-th segment of the given $n$-th video, there are three types of directed edges connect it with other nodes.
+
+ - The first set of directed edges start $v^n_{i}$ to the $m$ successive nodes $v^n_{i+1},v^n_{i+2},...,v^n_{i+m}$ , summarising short-term facial dynamics (depicted as yellow arrows in Fig.4 (b)).
+ - The second type of directed edge starts from $v^n_{i}$ to the node   $v^n_{i+p}$ corresponding to the $(i+p)$-th segment of the given   $n$-th video, aiming to model long-term facial temporal evolution   (depicted as black arrows in Fig. 4 (b)). The   ablation analysis of parameter $m$ and $p$ are provided in the   Supplementary Material.
+ - The third sets of directed edges are connected from previous nodes to   $v^n_{i}$ (depicted as blue arrows in Fig. 4 (b))
+
+
