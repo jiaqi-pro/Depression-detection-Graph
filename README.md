@@ -227,11 +227,22 @@ Please adhere to the terms of use for the datasets and refer to the detailed gui
   pages={1-18},
   doi={10.1109/TAFFC.2024.3415770}}
 
-
-
+```
+```
+@ARTICLE{song2022spectral,
+  author={Song, Siyang and Jaiswal, Shashank and Shen, Linlin and Valstar, Michel},
+  journal={IEEE Transactions on Affective Computing}, 
+  title={Spectral Representation of Behaviour Primitives for Depression Analysis}, 
+  year={2022},
+  volume={13},
+  number={2},
+  pages={829-844},
+  doi={10.1109/TAFFC.2020.2970712}}
+```
 ```
 @article{shen2024multi,
   title={Multi-modal Human Behaviour Graph Representation Learning for Automatic Depression Assessment},
   journal={The 18th IEEE International Conference on Automatic Face and Gesture Recognition}, 
   author={Shen, Haotian and Song, Siyang and Gunes, Hatice},
   year={2024}}
+```
