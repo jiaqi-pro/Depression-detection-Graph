@@ -237,7 +237,7 @@ Please adhere to the terms of use for the datasets and refer to the detailed gui
   number={2},
   pages={829-844},
   doi={10.1109/TAFFC.2020.2970712}}
-  
+
 ```
 @article{shen2024multi,
   title={Multi-modal Human Behaviour Graph Representation Learning for Automatic Depression Assessment},
@@ -245,3 +245,4 @@ Please adhere to the terms of use for the datasets and refer to the detailed gui
   author={Shen, Haotian and Song, Siyang and Gunes, Hatice},
   year={2024}}
 
+```
