@@ -214,8 +214,9 @@ Please adhere to the terms of use for the datasets and refer to the detailed gui
 
 ## Citations and Acknowledgments
 
-This project builds on the following research and acknowledges their contributions:
+**Please kindly cite our papers if you used or were inspired by our idea:**
 
+```
 @ARTICLE{xu2024two,
   author={Xu, Jiaqi and Gunes, Hatice and Kusumam, Keerthy and Valstar, Michel and Song, Siyang},
   journal={IEEE Transactions on Affective Computing}, 
@@ -226,6 +227,7 @@ This project builds on the following research and acknowledges their contributio
   pages={1-18},
   doi={10.1109/TAFFC.2024.3415770}}
 
+```
 @ARTICLE{song2022spectral,
   author={Song, Siyang and Jaiswal, Shashank and Shen, Linlin and Valstar, Michel},
   journal={IEEE Transactions on Affective Computing}, 
@@ -235,11 +237,11 @@ This project builds on the following research and acknowledges their contributio
   number={2},
   pages={829-844},
   doi={10.1109/TAFFC.2020.2970712}}
-
+  
+```
 @article{shen2024multi,
   title={Multi-modal Human Behaviour Graph Representation Learning for Automatic Depression Assessment},
   journal={The 18th IEEE International Conference on Automatic Face and Gesture Recognition}, 
   author={Shen, Haotian and Song, Siyang and Gunes, Hatice},
-  year={2024}
-}
+  year={2024}}
 
