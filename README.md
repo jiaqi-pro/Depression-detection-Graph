@@ -215,7 +215,31 @@ Please adhere to the terms of use for the datasets and refer to the detailed gui
 ## Citations and Acknowledgments
 
 This project builds on the following research and acknowledges their contributions:
-1. Valstar M, Schuller B, Smith K, et al. Avec 2013: the continuous audio/visual emotion and depression recognition challenge[C]. 2013.
-2. Valstar M, Schuller B, Smith K, et al. Avec 2014: 3d dimensional affect and depression recognition challenge[C]. 2014.
-3. Ringeval F, Schuller B, Valstar M, et al. AVEC 2019 workshop and challenge: state-of-mind, detecting depression with AI, and cross-cultural affect recognition[C]. 2019.
-4. Song S, Jaiswal S, Shen L, et al. Spectral representation of behaviour primitives for depression analysis[J]. IEEE Transactions on Affective Computing, 2020.
+
+@ARTICLE{xu2024two,
+  author={Xu, Jiaqi and Gunes, Hatice and Kusumam, Keerthy and Valstar, Michel and Song, Siyang},
+  journal={IEEE Transactions on Affective Computing}, 
+  title={Two-stage Temporal Modelling Framework for Video-based Depression Recognition using Graph Representation}, 
+  year={2024},
+  volume={},
+  number={},
+  pages={1-18},
+  doi={10.1109/TAFFC.2024.3415770}}
+
+@ARTICLE{song2022spectral,
+  author={Song, Siyang and Jaiswal, Shashank and Shen, Linlin and Valstar, Michel},
+  journal={IEEE Transactions on Affective Computing}, 
+  title={Spectral Representation of Behaviour Primitives for Depression Analysis}, 
+  year={2022},
+  volume={13},
+  number={2},
+  pages={829-844},
+  doi={10.1109/TAFFC.2020.2970712}}
+
+@article{shen2024multi,
+  title={Multi-modal Human Behaviour Graph Representation Learning for Automatic Depression Assessment},
+  journal={The 18th IEEE International Conference on Automatic Face and Gesture Recognition}, 
+  author={Shen, Haotian and Song, Siyang and Gunes, Hatice},
+  year={2024}
+}
+
