@@ -5,7 +5,7 @@
   <img src="fig/converted_logo.webp" width="200" height="200" alt="logo" title="logo">
 </p>
 
-# Video-based Depression Detection using Graph Representation
+# Two-stage Temporal Modelling Framework for Video-based Depression Recognition using Graph Representation
 [中文](README_ZH.md)   
 
 [English](README.md)
